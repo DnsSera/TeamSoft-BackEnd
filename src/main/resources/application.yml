@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: TeamSoft
+server:
+  port: 8081
