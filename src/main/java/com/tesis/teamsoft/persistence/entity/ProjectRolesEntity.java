@@ -2,21 +2,21 @@ package com.tesis.teamsoft.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "project_roles")
+public class ProjectRolesEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +29,23 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    @Column(name = "amount_workers_role")
+    private long amountWorkersRole;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectRoles")
+    private List<ProjectTechCompetenceEntity> projectTechCompetenceList;
+
+    @JoinColumn(name = "project_structure_fk", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private ProjectStructureEntity projectStructure;
+
+    @JoinColumn(name = "role_fk", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private RoleEntity role;
+
+    @JoinColumn(name = "role_load_fk", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private RoleLoadEntity roleLoad;
     //===================================================================================
 
 
@@ -42,10 +53,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof ProjectRolesEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

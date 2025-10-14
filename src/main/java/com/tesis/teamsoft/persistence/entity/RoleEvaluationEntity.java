@@ -9,14 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "role_evaluation")
+public class RoleEvaluationEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +30,25 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    private float levels;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1024)
+    private String significance;
+
+    /*Se establece la relacion con Project(tabla y clase),
+     a traves del atributo mapeado(roleEvaluation) en la clase ProjectEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleEvaluation")
+    private List<ProjectEntity> projectsList;
+
+    /*Se establece la relacion con RolePersonEval(tabla y clase),
+     a traves del atributo mapeado(roleEvaluation) en la clase RolePersonEvalEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleEvaluation")
+    private List<RolePersonEvalEntity> roleEvaluationList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleEvaluation")
+    private List<RoleEvalProjectEntity> roleEvalProjectList;
     //===================================================================================
 
 
@@ -42,10 +56,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof RoleEvaluationEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

@@ -9,14 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "competence")
+public class CompetenceEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +30,34 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    @Column(name = "competition_name")//<--Le asigna el nombre que tendra la columba en la base de datos
+    private String competitionName;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1024)
+    private String description;
+
+    private Boolean technical;
+
+    /*Se establece la relacion con RoleCompetition(tabla y clase),
+     a traves del atributo mapeado(competence) en la clase RoleCompetitionEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
+    private List<RoleCompetitionEntity> roleCompetitionList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
+    private List<ProjectTechCompetenceEntity> projectTechCompetenceList;
+
+    /*Se establece la relacion con CompetenceValue(tabla y clase),
+     a traves del atributo mapeado(competence) en la clase CompetenceValueEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
+    private List<CompetenceValueEntity> competenceValueList;
+
+    /*Se establece la relacion con CompetenceDimensionEntity(tabla y clase),
+     a traves del atributo mapeado(competence) en la clase CompetenceDimensionEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
+    private List<CompetenceDimensionEntity> competenceDimensionList;
     //===================================================================================
 
 
@@ -42,10 +65,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof CompetenceEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

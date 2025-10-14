@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,8 +17,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
-public class UserEntity implements Serializable {
+@Table(name = "project")
+public class ProjectEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -30,44 +31,49 @@ public class UserEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
-    @Column(name = "person_name")//<--Le asigna el nombre que tendra la columba en la base de datos
-    private String personName;
+    @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    @Column(name = "project_name")//<--Le asigna el nombre que tendra la columba en la base de datos
+    private String projectName;
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String surname;
+    private boolean close;
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "id_card")
-    private String idCard;
+    @Column(name = "initial_date")
+    @Temporal(TemporalType.DATE)//<--Indica que la variable sera de tipo fecha
+    private Date initialDate;
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String mail;
+    private boolean finalize;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    private String username;
+    @Column(name = "end_date")
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1024)
-    private String password;
+    @JoinColumn(name = "client_entity_fk", referencedColumnName = "id")//<--Establece la relacion con la clase ClientEnitty
+    @ManyToOne(optional = false)
+    private ClientEntity client;
 
-    @Basic(optional = false)
-    @NotNull
-    private boolean enabled;
+    @JoinColumn(name = "role_eval_fk", referencedColumnName = "id")//<--Establece la relacion con la clase RoleEvaluaEnitty
+    @ManyToOne(optional = false)
+    private RoleEvaluationEntity roleEvaluation;
 
-    /*Se establece la relación con Authorities(tabla y clase), a traves del atributo mapeado(users) en la clase AuthoritiesEntity*/
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "users")
-    private List<AuthorityEntity> authorities;
+    @JoinColumn(name = "province_fk", referencedColumnName = "id")//<--Establece la relacion con la clase CountyEnitty
+    @ManyToOne(optional = false)
+    private CountyEntity province;
 
+    /*Se establece la relacion con Cycle(tabla y clase),
+     a traves del atributo mapeado(project) en la clase CycleEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    private List<CycleEntity> cycleList;
+
+    /*Se establece la relacion con PersonalProjectInterest(tabla y clase),
+     a traves del atributo mapeado(project) en la clase PersonalProjectInterestEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    private List<PersonalProjectInterestsEntity> personalProjectInterestsList;
     //===================================================================================
 
 
@@ -75,7 +81,7 @@ public class UserEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof UserEntity other) {
+        if(object instanceof ProjectEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
         return false;

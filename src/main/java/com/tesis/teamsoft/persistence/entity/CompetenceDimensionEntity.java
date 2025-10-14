@@ -15,8 +15,8 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "competence_dimension")
+public class CompetenceDimensionEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +29,16 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    private String name;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @JoinColumn(name = "competence_fk", referencedColumnName = "id")//<--Establece la relacion con la clase CompetenceEnitty
+    @ManyToOne(optional = false)
+    private CompetenceEntity competence;
+
+    @JoinColumn(name = "levels_fk", referencedColumnName = "id")//<--Establece la relacion con la clase LevelsEnitty
+    @ManyToOne(optional = false)
+    private LevelsEntity levels;
     //===================================================================================
 
 
@@ -42,10 +46,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof CompetenceDimensionEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

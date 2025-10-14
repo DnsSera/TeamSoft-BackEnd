@@ -2,21 +2,22 @@ package com.tesis.teamsoft.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "competence_importance")
+public class CompetenceImportanceEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +30,22 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    private long levels;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    private String significance;
+
+    /*Se establece la relacion con RoleCompetition(tabla y clase),
+     a traves del atributo mapeado(competenceImportance) en la clase RoleCompetitionEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competenceImportance")
+    private List<RoleCompetitionEntity> roleCompetitionList;
+
+//    /*Se establece la relacion con ProjectTechCompetence(tabla y clase),
+//     a traves del atributo mapeado(competenceImportance) en la clase ProjectTechCompetenceEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competenceImportance")
+    private List<ProjectTechCompetenceEntity> projectTechCompetenceList;
     //===================================================================================
 
 
@@ -42,10 +53,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof CompetenceImportanceEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

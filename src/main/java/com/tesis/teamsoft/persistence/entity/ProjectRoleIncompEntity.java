@@ -2,7 +2,6 @@ package com.tesis.teamsoft.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +14,8 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "project_role_incomp")
+public class ProjectRoleIncompEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -27,14 +26,17 @@ public class AuthorityEntity implements Serializable {
     @SequenceGenerator(sequenceName = "hibernate_sequence", allocationSize = 1, name = "CUST_SEQ")//<--Se utiliza para definir un generador de secuencias
     private Long id;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    @JoinColumn(name = "cycle_fk", referencedColumnName = "id")//<--Establece la relacion con la clase CycleEnitty
+    @ManyToOne(optional = false)
+    private CycleEntity cycles;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @JoinColumn(name = "role_a_fk", referencedColumnName = "id")//<--Establece la relacion con la clase roleEnitty
+    @ManyToOne(optional = false)
+    private RoleEntity roleA;
+
+    @JoinColumn(name = "role_b_fk", referencedColumnName = "id")//<--Establece la relacion con la clase RoleEnitty
+    @ManyToOne(optional = false)
+    private RoleEntity roleB;
     //===================================================================================
 
 
@@ -42,10 +44,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof ProjectRoleIncompEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

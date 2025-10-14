@@ -9,14 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "county")
+public class CountyEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +30,37 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    @Column(name = "county_name")//<--Le asigna el nombre que tendra la columba en la base de datos
+    private String countyName;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1024)
+    private String code;
+
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "county")
+//    private List<Municipality> municipalityList;
+
+    /*Se establece la relacion con Projec(tabla y clase),
+     a traves del atributo mapeado(province) en la clase ProjecEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "province")
+    private List<ProjectEntity> projectList;
+
+    /*Se establece la relacion con Person(tabla y clase),
+     a traves del atributo mapeado(county) en la clase PersonEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "county")
+    private List<PersonEntity> personList;
+
+    /*Se establece la relacion con CostDistance(tabla y clase),
+     a traves del atributo mapeado(countyA) en la clase CostDistanceEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "countyA")
+    private List<CostDistanceEntity> costDistanceListA;
+
+    /*Se establece la relacion con CostDistance(tabla y clase),
+     a traves del atributo mapeado(countyB) en la clase CostDistanceEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "countyB")
+    private List<CostDistanceEntity> costDistanceListB;
     //===================================================================================
 
 
@@ -42,10 +68,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof CountyEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

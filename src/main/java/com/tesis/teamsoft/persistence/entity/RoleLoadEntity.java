@@ -9,14 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "role_load")
+public class RoleLoadEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +30,15 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    private float value;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1024)
+    private String significance;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleLoad")
+    private List<ProjectRolesEntity> projectRolesList;
     //===================================================================================
 
 
@@ -42,10 +46,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof RoleLoadEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

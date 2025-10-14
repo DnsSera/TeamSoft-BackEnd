@@ -15,8 +15,8 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "person_test")
+public class PersonTestEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +29,57 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    @Column(name = "e_s")//<--Le asigna el nombre que tendra la columba en la base de datos
+    private Character eS;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "i_d")
+    private Character iD;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "c_o")
+    private Character cO;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "i_s")
+    private Character iS;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "c_e")
+    private Character cE;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "i_r")
+    private Character iR;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "m_e")
+    private Character mE;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "c_h")
+    private Character cH;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "i_f")
+    private Character iF;
+
+    @Basic(optional = true)
+    @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    @Column(name = "tipo_m_b")
+    private String tipoMB;
+
+    @JoinColumn(name = "person_fk", referencedColumnName = "id")//<--Establece la relacion con la clase PersonEnitty
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    private PersonEntity person;
     //===================================================================================
 
 
@@ -42,10 +87,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof PersonTestEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

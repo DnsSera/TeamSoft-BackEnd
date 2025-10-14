@@ -2,14 +2,18 @@ package com.tesis.teamsoft.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,7 +21,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "person")
-public class PersonEntity {
+public class PersonEntity implements Serializable {
 
     @Id//<--Marca el atributo como llave primaria de la entidad
     @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
@@ -86,71 +90,104 @@ public class PersonEntity {
     @Temporal(TemporalType.DATE)
     private Date birthDate;
 
-    @JoinColumn(name = "religion_fk", referencedColumnName = "id")//<--Establece la relacion con la tabla Religion
+    //Relaciones OneToMany
+
+    /*Se establece la relacion con AssignedRole(tabla y clase), a traves del atributo mapeado(person) en la clase PersonEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<AssignedRoleEntity> assignedRoleList;
+
+    /*Se establece la relacion con CompetenceValue(tabla y clase),
+     a traves del atributo mapeado(person) en la clase CompetenceValueEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<CompetenceValueEntity> competenceValueList;
+
+    /*Se establece la relacion con PersonalInterests(tabla y clase),
+     a traves del atributo mapeado(person) en la clase PersonalInterestsEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<PersonalInterestsEntity> personalInterestsList;
+
+    /*Se establece la relacion con PersonalProjectInterests(tabla y clase),
+     a traves del atributo mapeado(person) en la clase PersonalProjectInterestsEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<PersonalProjectInterestsEntity> personalProjectInterestsList;
+
+    /*Se establece la relacion con RolePersonEval(tabla y clase),
+     a traves del atributo mapeado(person) en la clase RolePersonEvalEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<RolePersonEvalEntity> roleEvaluationList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<RoleExperienceEntity> roleExperienceList;
+
+    /*Se establece la relacion con PersonalProjectInterests(tabla y clase),
+     a traves del atributo mapeado(person) en la clase PersonalProjectInterestsEntity*/
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "person")
+    private PersonTestEntity personTest;
+
+
+    //Relaciones ManyToOne a traves de Join
+    @JoinColumn(name = "county_fk", referencedColumnName = "id")//<--Establece la relacion con la clase CountyEnitty
     @ManyToOne(optional = false)
-    private ReligionEntity religion;
+    private CountyEntity county;
 
-    /**TODO
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "workersFk")//<--Define una relación de uno a muchos entre entidades, indica ademas por que columna se unira a otras entidades
-    private List<AssignedRole> assignedRoleList;
-
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "workerFk")
-    private List<RoleExperience> roleExperienceList;
-
-
-    @JoinColumn(name = "county_fk", referencedColumnName = "id")
+    @JoinColumn(name = "race_fk", referencedColumnName = "id")//<--Establece la relacion con la clase RaceEnitty
     @ManyToOne(optional = false)
-    private County countyFk;
-
+    private RaceEntity race;
 
     @JoinColumn(name = "group_fk", referencedColumnName = "id")//<--Indica por que atributo se unira a la entidad
     @ManyToOne(optional = false)//<--Define una relación de muchos a uno con una entidad
-    private PersonGroup groupFk;
+    private PersonGroupEntity group;
 
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "workersFk")
-    private List<PersonalInterests> personalInterestsList;
-
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "workersFk")
-    private List<PersonalProjectInterests> personalProjectInterestsList;
-
-
-    @OneToMany(mappedBy = "workerFk")
-    private List<RoleEvaluation> roleEvaluationList;
-
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "workersFk")
-    private List<CompetenceValue> competenceValueList;
-
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "workerConflictFk")
-    private List<WorkerConflict> workerConflictList;
-
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "workerFk")
-    private List<WorkerConflict> workerConflictList1;
-
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "workerFk")
-    private WorkerTest workerTest;
-
-
-    @OneToMany(mappedBy = "workerFk")
-    private List<Users> usersList;
-
-
-    @JoinColumn(name = "race_fk", referencedColumnName = "id")
+    @JoinColumn(name = "nacionality_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
     @ManyToOne(optional = false)
-    private Race racefk;
+    private NacionalityEntity nacionality;
 
-
-    //@ManyToMany <--Indica una relación de muchos a muchos con otra entidad
-
-    @JoinColumn(name = "nacionality_fk", referencedColumnName = "id")
+    @JoinColumn(name = "religion_fk", referencedColumnName = "id")//<--Establece la relacion con la clase ReligionEnitty
     @ManyToOne(optional = false)
-    private Nacionality nacionalityfk;**/
+    private ReligionEntity religion;
+
+    @JoinColumn(name = "age_group_fk", referencedColumnName = "id")//<--Establece la relacion con la clase AgeGroupEnitty
+    @ManyToOne(optional = false)
+    private AgeGroupEntity ageGroup;
+    //===================================================================================
 
 
+    //Métodos
+    //===================================================================================
+    public String getFullName() {
+        String result = "";
+        result += personName;
+        result += " " + surName;
+        return result.trim();
+    }
+
+    //Método para calcular la edad de una persona
+    public int getAge(){
+        int age = 0;
+
+        if(birthDate != null){    //Se comprueba que las fechas no están null
+            Date today = new Date();
+            LocalDate firstDate = birthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate secondDate = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            age = Period.between(firstDate, secondDate).getYears();
+        }
+
+        return age;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if(object instanceof PersonEntity other) {
+            return this.id != null && other.id != null && this.id.equals(other.id);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+    //===================================================================================
 }

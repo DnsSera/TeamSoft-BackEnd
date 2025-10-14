@@ -9,14 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "nacionality")
+public class NacionalityEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +30,19 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    @Size(min = 1, max = 255)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    @Column(name = "pais_nac", unique = true)//<--Le asigna el nombre que tendra la columba en la base de datos
+    private String paisNac;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "gentilicio_nac", unique = true)
+    private String gentilicioNac;
+
+    /*Se establece la relación con Person(tabla y clase), a traves del atributo mapeado(nacionality) en la clase PersonEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nacionality")
+    private List<PersonEntity> personList;
     //===================================================================================
 
 
@@ -42,10 +50,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof NacionalityEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

@@ -2,7 +2,6 @@ package com.tesis.teamsoft.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +14,8 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "cost_distance")
+public class CostDistanceEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +28,16 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    @Column(name = "cost_distance")//<--Le asigna el nombre que tendra la columba en la base de datos
+    private float costDistance;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @JoinColumn(name = "county_a_fk", referencedColumnName = "id")//<--Establece la relacion con la clase CountyEnitty
+    @ManyToOne(optional = false)                                  //Necesita de dos CountyEntity para el valor de trabajar a distancia
+    private CountyEntity countyA;
+
+    @JoinColumn(name = "county_b_fk", referencedColumnName = "id")//<--Establece la relacion con la clase CountyEnitty
+    @ManyToOne(optional = false)                                  //Necesita de dos CountyEntity para el valor de trabajar a distancia
+    private CountyEntity countyB;
     //===================================================================================
 
 
@@ -42,10 +45,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof CostDistanceEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

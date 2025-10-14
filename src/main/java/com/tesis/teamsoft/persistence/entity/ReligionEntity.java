@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -16,8 +17,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "religion")
-public class ReligionEntity {
+public class ReligionEntity implements Serializable {
 
+    //Atributos
+    //===================================================================================
     @Id//<--Marca el atributo como llave primaria de la entidad
     @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
     @NotNull//<--Se utiliza para especificar que un campo no puede ser null
@@ -28,11 +31,30 @@ public class ReligionEntity {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
-    @Column(name = "religion_name")
+    @Column(name = "religion_name", unique = true)//<--Le asigna el nombre que tendra la columba en la base de datos
     private String religionName;
 
-    /*Se establece la realcion de uno a muchos con la tabla Worker(Persona), muchas personas puede
-    pertenecer a una misma religión*/
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "religion")//<--Se establece la relacion con la tabla person
-    private List<PersonEntity> workerList;
+    /*Se establece la relacion con Person(tabla y clase), a traves del atributo mapeado(religion) en la clase PersonEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "religion")
+    private List<PersonEntity> personList;
+    //===================================================================================
+
+
+    //Métodos
+    //===================================================================================
+    @Override
+    public boolean equals(Object object) {
+        if(object instanceof ReligionEntity other) {
+            return this.id != null && other.id != null && this.id.equals(other.id);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+    //===================================================================================
 }

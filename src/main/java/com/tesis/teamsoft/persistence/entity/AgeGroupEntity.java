@@ -1,22 +1,24 @@
 package com.tesis.teamsoft.persistence.entity;
 
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "age_group")
+public class AgeGroupEntity implements Serializable {
+
 
     //Atributos
     //===================================================================================
@@ -27,25 +29,46 @@ public class AuthorityEntity implements Serializable {
     @SequenceGenerator(sequenceName = "hibernate_sequence", allocationSize = 1, name = "CUST_SEQ")//<--Se utiliza para definir un generador de secuencias
     private Long id;
 
+    /*Nombre del grupo de edad, Se establece como NotNull, tamaño mínimo 1 y máximo 255*/
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    @Size(min = 1, max = 255)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    @Column(name = "age_group_name")//<--Le asigna el nombre que tendra la columba en la base de datos
+    private String ageGroupName;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @Basic(optional = false)
+    @NotNull
+    @Min(value = 0)//Establece límites para la edad máxima o mínima
+    @Max(value = 150)
+    @Column(name = "max_age")
+    private int maxAge;
+
+    @Basic(optional = false)
+    @NotNull
+    @Min(value = 0)//Establece límites para la edad máxima o mínima
+    @Max(value = 150)
+    @Column(name = "min_age")
+    private int minAge;
+
+    /*Se establece la relacion con Person(tabla y clase), a traves del atributo mapeado(ageGroup) en la clase PersonEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ageGroup")
+    private List<PersonEntity> personList;
     //===================================================================================
 
 
     //Métodos
     //===================================================================================
+    // Validación personalizada para asegurar que minAge <= maxAge
+    @AssertTrue(message = "La edad mínima debe ser menor o igual a la edad máxima")
+    public boolean isAgeRangeValid() {
+        return minAge <= maxAge;
+    }
+
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof AgeGroupEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

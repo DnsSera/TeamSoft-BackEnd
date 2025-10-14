@@ -9,14 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "levels")
+public class LevelsEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +30,30 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    private long levels;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 500)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    private String significance;
+
+    /*Se establece la relacion con RoleCompetition(tabla y clase),
+     a traves del atributo mapeado(levels) en la clase RoleCompetitionEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "levels")
+    private List<RoleCompetitionEntity> roleCompetitionList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "level")
+    private List<ProjectTechCompetenceEntity> projectTechCompetenceList;
+
+    /*Se establece la relacion con CompetenceValueCompetition(tabla y clase),
+     a traves del atributo mapeado(levels) en la clase CompetenceValueEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "levels")
+    private List<CompetenceValueEntity> competenceValueList;
+
+    /*Se establece la relacion con CompetenceDimension(tabla y clase),
+     a traves del atributo mapeado(levels) en la clase CompetenceDimensionEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "levels")
+    private List<CompetenceDimensionEntity> competenceDimensionList;
     //===================================================================================
 
 
@@ -42,10 +61,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof LevelsEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 

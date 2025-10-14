@@ -9,14 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "authority")
-public class AuthorityEntity implements Serializable {
+@Table(name = "race")
+public class RaceEntity implements Serializable {
 
     //Atributos
     //===================================================================================
@@ -29,12 +30,13 @@ public class AuthorityEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    private String authority;
+    @Size(min = 1, max = 255)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    @Column(name = "race_name")//<--Le asigna el nombre que tendra la columba en la base de datos
+    private String raceName;
 
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")//<--Establece la relacion con la clase NacionalityEnitty
-    @ManyToOne (optional = false)
-    private UserEntity users;
+    /*Se establece la relacion con Person(tabla y clase), a traves del atributo mapeado(race) en la clase PersonPersonEntity*/
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "race")
+    private List<PersonEntity> personList;
     //===================================================================================
 
 
@@ -42,10 +44,9 @@ public class AuthorityEntity implements Serializable {
     //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof AuthorityEntity other) {
+        if(object instanceof RaceEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
-
         return false;
     }
 
