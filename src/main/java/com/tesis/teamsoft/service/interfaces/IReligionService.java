@@ -8,15 +8,15 @@ import java.util.List;
 @Repository
 public interface IReligionService {
 
-    ReligionDTO saveReligion(ReligionDTO religionDTO);
+    ReligionDTO.ReligionResponseDTO saveReligion(ReligionDTO.ReligionCreateDTO religionDTO);
 
     ReligionDTO updateReligion(ReligionDTO religionDTO, Long id);
 
     String deleteReligion(Long id);
 
-    List<ReligionDTO> findAllReligion();
+    List<ReligionDTO.ReligionResponseDTO> findAllReligion();
 
-    List<ReligionDTO> findAllByOrderByIdAsc();
+    List<ReligionDTO.ReligionResponseDTO> findAllByOrderByIdAsc();
 
     ReligionDTO findReligionById(Long id);
 }

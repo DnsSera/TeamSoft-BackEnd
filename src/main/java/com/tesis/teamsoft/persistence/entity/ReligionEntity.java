@@ -23,9 +23,7 @@ public class ReligionEntity implements Serializable {
     //Atributos
     //===================================================================================
     @Id//<--Marca el atributo como llave primaria de la entidad
-    @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
-    @NotNull//<--Se utiliza para especificar que un campo no puede ser null
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")//<--Indica que el valor de la llave primaria se genera automáticamente
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)//<--Indica que el valor de la llave primaria se genera automáticamente
     @SequenceGenerator(sequenceName = "hibernate_sequence", allocationSize = 1, name = "CUST_SEQ")//<--Se utiliza para definir un generador de secuencias
     private Long id;
 

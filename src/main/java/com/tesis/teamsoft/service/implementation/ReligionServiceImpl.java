@@ -20,13 +20,12 @@ public class ReligionServiceImpl implements IReligionService {
     ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public ReligionDTO saveReligion(ReligionDTO religionDTO) {
+    public ReligionDTO.ReligionResponseDTO saveReligion(ReligionDTO.ReligionCreateDTO religionDTO) {
 
         try {
-            System.out.println("Intentando guardar religión: " + religionDTO);
             ReligionEntity savedReligion = modelMapper.map(religionDTO, ReligionEntity.class);
             religionRepository.save(savedReligion);
-            return modelMapper.map(savedReligion, ReligionDTO.class);
+            return modelMapper.map(savedReligion, ReligionDTO.ReligionResponseDTO.class);
 
         } catch (Exception e) {
             throw new RuntimeException("Error saving religion: " + e.getMessage());
@@ -57,18 +56,18 @@ public class ReligionServiceImpl implements IReligionService {
     }
 
     @Override
-    public List<ReligionDTO> findAllReligion() {
+    public List<ReligionDTO.ReligionResponseDTO> findAllReligion() {
         return religionRepository.findAll()
                 .stream()
-                .map(religionEntity -> modelMapper.map(religionEntity, ReligionDTO.class))
+                .map(religionEntity -> modelMapper.map(religionEntity, ReligionDTO.ReligionResponseDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ReligionDTO> findAllByOrderByIdAsc() {
+    public List<ReligionDTO.ReligionResponseDTO> findAllByOrderByIdAsc() {
         return religionRepository.findAllByOrderByIdAsc()
                 .stream()
-                .map(religionEntity -> modelMapper.map(religionEntity, ReligionDTO.class))
+                .map(religionEntity -> modelMapper.map(religionEntity, ReligionDTO.ReligionResponseDTO.class))
                 .collect(Collectors.toList());
     }
 

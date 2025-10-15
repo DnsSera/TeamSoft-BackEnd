@@ -20,7 +20,7 @@ public class ReligionController {
     ReligionServiceImpl religionService;
 
     @RequestMapping(value = "/create_religion", method = RequestMethod.POST)
-    public ResponseEntity<ReligionDTO> createReligion(@RequestBody ReligionDTO religionDTO) {
+    public ResponseEntity<ReligionDTO.ReligionResponseDTO> createReligion(@RequestBody ReligionDTO.ReligionCreateDTO religionDTO) {
         return new ResponseEntity<>(religionService.saveReligion(religionDTO), HttpStatus.OK);
     }
 
@@ -35,7 +35,7 @@ public class ReligionController {
     }
 
     @RequestMapping(value = "/findAll_religion", method = RequestMethod.GET)
-    public ResponseEntity<List<ReligionDTO>> findAllReligions() {
+    public ResponseEntity<List<ReligionDTO.ReligionResponseDTO>> findAllReligions() {
         return new ResponseEntity<>(religionService.findAllByOrderByIdAsc(), HttpStatus.OK);
     }
 
