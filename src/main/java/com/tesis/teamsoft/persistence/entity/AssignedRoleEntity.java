@@ -2,8 +2,7 @@ package com.tesis.teamsoft.persistence.entity;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +21,7 @@ import java.io.Serializable;
 public class AssignedRoleEntity implements Serializable {
 
     //Atributos
-    //===================================================================================
+    //=====================================================================================================================
     @Id//<--Marca el atributo como llave primaria de la entidad
     @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
     @NotNull//<--Se utiliza para especificar que un campo no puede ser null
@@ -31,23 +30,23 @@ public class AssignedRoleEntity implements Serializable {
     private Long id;
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    @NotBlank()//<--La cadena de caracteres no puede ser "", " ", o null
     private String status;
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1024)
+    @NotBlank()//<--La cadena de caracteres no puede ser "", " ", o null
     private String observation;
 
     @Column(name = "end_date")//<--Le asigna el nombre que tendra la columba en la base de datos
     @Temporal(TemporalType.DATE)//<--Indica que la variable sera de tipo fecha
+    @Future//<--Establece la fecha de terminación como futura
     private Date endDate;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "begin_date")
     @Temporal(TemporalType.DATE)
+    //@PastOrPresent//<--Establece que la fecha de inicio debe ser hoy o pasada
     private Date beginDate;
 
     @JoinColumn(name = "cycles_fk", referencedColumnName = "id")//<--Establece la relacion con la clase CycleEnitty
@@ -61,11 +60,25 @@ public class AssignedRoleEntity implements Serializable {
     @JoinColumn(name = "person_fk", referencedColumnName = "id")//<--Establece la relacion con la clase PersonEnitty
     @ManyToOne(optional = false)
     private PersonEntity person;
-    //===================================================================================
+    //=====================================================================================================================
+
+
+    //Validaciones
+    //=====================================================================================================================
+
+    // Validación personalizada para lógica de fechas
+    @AssertTrue(message = "La fecha de fin debe ser posterior a la fecha de inicio")
+    public boolean isDateRangeValid() {
+        if (endDate != null && beginDate != null) {
+            return endDate.after(beginDate);
+        }
+        return false;
+    }
+    //=====================================================================================================================
 
 
     //Métodos
-    //===================================================================================
+    //=====================================================================================================================
     @Override
     public boolean equals(Object object) {
         if(object instanceof AssignedRoleEntity other) {
@@ -80,5 +93,5 @@ public class AssignedRoleEntity implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-    //===================================================================================
+    //=====================================================================================================================
 }

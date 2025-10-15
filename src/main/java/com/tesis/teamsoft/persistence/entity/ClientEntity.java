@@ -1,6 +1,7 @@
 package com.tesis.teamsoft.persistence.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.List;
 public class ClientEntity implements Serializable {
 
     //Atributos
-    //===================================================================================
+    //=====================================================================================================================
     @Id//<--Marca el atributo como llave primaria de la entidad
     @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
     @NotNull//<--Se utiliza para especificar que un campo no puede ser null
@@ -31,8 +32,8 @@ public class ClientEntity implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
-    @Column(name = "entity_name")//<--Le asigna el nombre que tendra la columba en la base de datos
-    private String entityName;
+    @Column(name = "entity_name", unique = true)//<--Le asigna el nombre que tendra la columba en la base de datos
+    private String entityName;//<--Establece que el atributo sera único
 
     @Basic(optional = false)
     @NotNull
@@ -44,14 +45,34 @@ public class ClientEntity implements Serializable {
     @Size(min = 1, max = 1024)
     private String phone;
 
-    /*Se establece la relacion con Project(tabla y clase), a traves del atributo mapeado(client) en la clase ProjectEntity*/
+    /*Se establece la relacion con Project(tabla y clase),
+     a traves del atributo mapeado(client) en la clase ProjectEntity*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
     private List<ProjectEntity> projectList;
-    //===================================================================================
+    //=====================================================================================================================
+
+
+    //Validaciones
+    //=====================================================================================================================
+
+    // Validación personalizada para el teléfono (más específica)
+    @AssertTrue(message = "El teléfono debe contener al menos 8 dígitos numéricos")
+    public boolean isPhoneValid() {
+        if (phone == null) return false;
+        String digitsOnly = phone.replaceAll("[^0-9]", "");
+        return digitsOnly.length() >= 8;
+    }
+
+    // Validación para el nombre de entidad (evitar solo espacios)
+    @AssertTrue(message = "El nombre de la entidad no puede contener solo espacios")
+    public boolean isEntityNameValid() {
+        return entityName != null && entityName.trim().length() > 0;
+    }
+    //=====================================================================================================================
 
 
     //Métodos
-    //===================================================================================
+    //=====================================================================================================================
     @Override
     public boolean equals(Object object) {
         if(object instanceof ClientEntity other) {
@@ -66,5 +87,5 @@ public class ClientEntity implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-    //===================================================================================
+    //=====================================================================================================================
 }

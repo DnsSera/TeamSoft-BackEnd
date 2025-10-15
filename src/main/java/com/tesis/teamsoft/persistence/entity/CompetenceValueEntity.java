@@ -32,7 +32,7 @@ public class CompetenceValueEntity implements Serializable {
 
     @JoinColumn(name = "levels_fk", referencedColumnName = "id")//<--Establece la relacion con la clase LevelsEnitty
     @ManyToOne(optional = false)
-    private LevelsEntity levels;
+    private LevelsEntity level;
 
     @JoinColumn(name = "person_fk", referencedColumnName = "id")//<--Establece la relacion con la clase PersonEnitty
     @ManyToOne(optional = false)

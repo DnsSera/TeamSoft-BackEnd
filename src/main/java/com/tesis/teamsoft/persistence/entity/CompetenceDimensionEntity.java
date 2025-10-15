@@ -1,6 +1,7 @@
 package com.tesis.teamsoft.persistence.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ import java.io.Serializable;
 public class CompetenceDimensionEntity implements Serializable {
 
     //Atributos
-    //===================================================================================
+    //=====================================================================================================================
     @Id//<--Marca el atributo como llave primaria de la entidad
     @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
     @NotNull//<--Se utiliza para especificar que un campo no puede ser null
@@ -30,6 +31,7 @@ public class CompetenceDimensionEntity implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    @Column(unique = true)//<--Establece que el atributo sera único
     private String name;
 
     @JoinColumn(name = "competence_fk", referencedColumnName = "id")//<--Establece la relacion con la clase CompetenceEnitty
@@ -38,12 +40,22 @@ public class CompetenceDimensionEntity implements Serializable {
 
     @JoinColumn(name = "levels_fk", referencedColumnName = "id")//<--Establece la relacion con la clase LevelsEnitty
     @ManyToOne(optional = false)
-    private LevelsEntity levels;
-    //===================================================================================
+    private LevelsEntity level;
+    //=====================================================================================================================
+
+
+    //Validaciones
+    //=====================================================================================================================
+
+    @AssertTrue(message = "El nombre no puede contener solo espacios")
+    public boolean isNameValid() {
+        return name != null && !name.trim().isEmpty();
+    }
+    //=====================================================================================================================
 
 
     //Métodos
-    //===================================================================================
+    //=====================================================================================================================
     @Override
     public boolean equals(Object object) {
         if(object instanceof CompetenceDimensionEntity other) {
@@ -58,5 +70,5 @@ public class CompetenceDimensionEntity implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-    //===================================================================================
+    //=====================================================================================================================
 }

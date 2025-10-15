@@ -36,7 +36,7 @@ public class RoleCompetitionEntity implements Serializable {
 
     @JoinColumn(name = "levels_fk", referencedColumnName = "id")//<--Establece la relacion con la clase LevelsEnitty
     @ManyToOne(optional = false)
-    private LevelsEntity levels;
+    private LevelsEntity level;
 
     @JoinColumn(name = "roles_fk", referencedColumnName = "id")//<--Establece la relacion con la clase RoleEnitty
     @ManyToOne(optional = false)

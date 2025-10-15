@@ -30,7 +30,7 @@ public class LevelsEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    private long levels;
+    private long level;
 
     @Basic(optional = false)
     @NotNull
@@ -39,7 +39,7 @@ public class LevelsEntity implements Serializable {
 
     /*Se establece la relacion con RoleCompetition(tabla y clase),
      a traves del atributo mapeado(levels) en la clase RoleCompetitionEntity*/
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "levels")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "level")
     private List<RoleCompetitionEntity> roleCompetitionList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "level")
@@ -47,12 +47,12 @@ public class LevelsEntity implements Serializable {
 
     /*Se establece la relacion con CompetenceValueCompetition(tabla y clase),
      a traves del atributo mapeado(levels) en la clase CompetenceValueEntity*/
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "levels")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "level")
     private List<CompetenceValueEntity> competenceValueList;
 
     /*Se establece la relacion con CompetenceDimension(tabla y clase),
      a traves del atributo mapeado(levels) en la clase CompetenceDimensionEntity*/
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "levels")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "level")
     private List<CompetenceDimensionEntity> competenceDimensionList;
     //===================================================================================
 
