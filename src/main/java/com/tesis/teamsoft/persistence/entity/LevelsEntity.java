@@ -30,7 +30,7 @@ public class LevelsEntity implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    private long level;
+    private long levels;
 
     @Basic(optional = false)
     @NotNull

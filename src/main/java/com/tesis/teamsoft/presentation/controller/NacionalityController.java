@@ -1,7 +1,7 @@
 package com.tesis.teamsoft.presentation.controller;
 
-import com.tesis.teamsoft.presentation.dto.AgeGroupDTO;
-import com.tesis.teamsoft.service.implementation.AgeGroupServiceImpl;
+import com.tesis.teamsoft.presentation.dto.NacionalityDTO;
+import com.tesis.teamsoft.service.implementation.NacionalityServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,37 +14,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@Tag(name = "AgeGroups")
-@RequestMapping("/ageGroup")
-public class AgeGroupController {
+@Tag(name = "Nacionality")
+@RequestMapping("/nacionality")
+public class NacionalityController {
 
     @Autowired
-    private AgeGroupServiceImpl ageGroupService;
+    private NacionalityServiceImpl nacionalityService;
 
-    @RequestMapping(value = "/create_ageGroup", method = RequestMethod.POST)
-    public ResponseEntity<?> createAgeGroup(@Valid @RequestBody AgeGroupDTO.AgeGroupCreateDTO ageGroupDTO, BindingResult bindingResult) {
+    @RequestMapping(value = "/create_nacionality", method = RequestMethod.POST)
+    public ResponseEntity<?> createNacionality(@Valid @RequestBody NacionalityDTO.NacionalityCreateDTO nacionalityDTO, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error ->
                     errors.put(error.getField(), error.getDefaultMessage()));
-
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
         try {
-            return new ResponseEntity<>(ageGroupService.saveAgeGroup(ageGroupDTO), HttpStatus.CREATED);
+            return new ResponseEntity<>(nacionalityService.saveNacionality(nacionalityDTO), HttpStatus.CREATED);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/update_ageGroup/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateAgeGroup(@Valid @RequestBody AgeGroupDTO.AgeGroupCreateDTO ageGroupDTO
-            , BindingResult bindingResult
-            , @PathVariable long id) {
+    @RequestMapping(value = "/update_nacionality/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateNacionality(@Valid @RequestBody NacionalityDTO.NacionalityCreateDTO nacionalityDTO,
+                                               BindingResult bindingResult,
+                                               @PathVariable Long id) {
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -54,56 +53,51 @@ public class AgeGroupController {
         }
 
         try {
-            return new ResponseEntity<>(ageGroupService.updateAgeGroup(ageGroupDTO, id), HttpStatus.OK);
-
+            return new ResponseEntity<>(nacionalityService.updateNacionality(nacionalityDTO, id), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         }
     }
 
-    @RequestMapping(value = "/delete_ageGroup/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteReligion(@PathVariable Long id) {
-
+    @RequestMapping(value = "/delete_nacionality/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteNacionality(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(ageGroupService.deleteAgeGroup(id), HttpStatus.OK);
+            return new ResponseEntity<>(nacionalityService.deleteNacionality(id), HttpStatus.OK);
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.CONFLICT);
         }
     }
 
-    @RequestMapping(value = "/findAll_ageGroup", method = RequestMethod.GET)
-    public ResponseEntity<?> findAllReligions() {
+    @RequestMapping(value = "/findAll_nacionality", method = RequestMethod.GET)
+    public ResponseEntity<?> findAllNacionality() {
         try {
-            return new ResponseEntity<>(ageGroupService.findAllByOrderByIdAsc(), HttpStatus.OK);
+            return new ResponseEntity<>(nacionalityService.findAllByOrderByIdAsc(), HttpStatus.OK);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error> ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @RequestMapping(value = "findByID_ageGroup/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> findUserById(@PathVariable Long id) {
+    @RequestMapping(value = "/findByID_nacionality/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> findNacionalityById(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(ageGroupService.findAgeGroupById(id), HttpStatus.OK);
-
+            return new ResponseEntity<>(nacionalityService.findNacionalityById(id), HttpStatus.OK);
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         }
     }

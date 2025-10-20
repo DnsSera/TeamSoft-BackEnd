@@ -1,7 +1,7 @@
 package com.tesis.teamsoft.presentation.controller;
 
-import com.tesis.teamsoft.presentation.dto.AgeGroupDTO;
-import com.tesis.teamsoft.service.implementation.AgeGroupServiceImpl;
+import com.tesis.teamsoft.presentation.dto.CostDistanceDTO;
+import com.tesis.teamsoft.service.implementation.CostDistanceServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,37 +14,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@Tag(name = "AgeGroups")
-@RequestMapping("/ageGroup")
-public class AgeGroupController {
+@Tag(name = "CostDistance")
+@RequestMapping("/costDistance")
+public class CostDistanceController {
 
     @Autowired
-    private AgeGroupServiceImpl ageGroupService;
+    private CostDistanceServiceImpl costDistanceService;
 
-    @RequestMapping(value = "/create_ageGroup", method = RequestMethod.POST)
-    public ResponseEntity<?> createAgeGroup(@Valid @RequestBody AgeGroupDTO.AgeGroupCreateDTO ageGroupDTO, BindingResult bindingResult) {
+    @RequestMapping(value = "/create_costDistance", method = RequestMethod.POST)
+    public ResponseEntity<?> createCostDistance(@Valid @RequestBody CostDistanceDTO.CostDistanceCreateDTO costDistanceDTO, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error ->
                     errors.put(error.getField(), error.getDefaultMessage()));
-
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
         try {
-            return new ResponseEntity<>(ageGroupService.saveAgeGroup(ageGroupDTO), HttpStatus.CREATED);
+            return new ResponseEntity<>(costDistanceService.saveCostDistance(costDistanceDTO), HttpStatus.CREATED);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/update_ageGroup/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateAgeGroup(@Valid @RequestBody AgeGroupDTO.AgeGroupCreateDTO ageGroupDTO
-            , BindingResult bindingResult
-            , @PathVariable long id) {
+    @RequestMapping(value = "/update_costDistance/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateCostDistance(@Valid @RequestBody CostDistanceDTO.CostDistanceCreateDTO costDistanceDTO,
+                                                BindingResult bindingResult,
+                                                @PathVariable Long id) {
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -54,56 +53,51 @@ public class AgeGroupController {
         }
 
         try {
-            return new ResponseEntity<>(ageGroupService.updateAgeGroup(ageGroupDTO, id), HttpStatus.OK);
-
+            return new ResponseEntity<>(costDistanceService.updateCostDistance(costDistanceDTO, id), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         }
     }
 
-    @RequestMapping(value = "/delete_ageGroup/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteReligion(@PathVariable Long id) {
-
+    @RequestMapping(value = "/delete_costDistance/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteCostDistance(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(ageGroupService.deleteAgeGroup(id), HttpStatus.OK);
+            return new ResponseEntity<>(costDistanceService.deleteCostDistance(id), HttpStatus.OK);
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
-            return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-        }
-    }
-
-    @RequestMapping(value = "/findAll_ageGroup", method = RequestMethod.GET)
-    public ResponseEntity<?> findAllReligions() {
-        try {
-            return new ResponseEntity<>(ageGroupService.findAllByOrderByIdAsc(), HttpStatus.OK);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("Error> ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @RequestMapping(value = "findByID_ageGroup/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> findUserById(@PathVariable Long id) {
+    @RequestMapping(value = "/findAll_costDistance", method = RequestMethod.GET)
+    public ResponseEntity<?> findAllCostDistance() {
         try {
-            return new ResponseEntity<>(ageGroupService.findAgeGroupById(id), HttpStatus.OK);
+            return new ResponseEntity<>(costDistanceService.findAllByOrderByIdAsc(), HttpStatus.OK);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("Error", e.getMessage());
+            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    @RequestMapping(value = "/findByID_costDistance/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> findCostDistanceById(@PathVariable Long id) {
+        try {
+            return new ResponseEntity<>(costDistanceService.findCostDistanceById(id), HttpStatus.OK);
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         }
     }

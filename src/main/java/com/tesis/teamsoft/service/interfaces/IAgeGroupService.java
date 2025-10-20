@@ -1,7 +1,6 @@
 package com.tesis.teamsoft.service.interfaces;
 
 import com.tesis.teamsoft.presentation.dto.AgeGroupDTO;
-import com.tesis.teamsoft.presentation.dto.ReligionDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

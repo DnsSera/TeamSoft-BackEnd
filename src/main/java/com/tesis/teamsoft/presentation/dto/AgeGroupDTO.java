@@ -1,7 +1,5 @@
 package com.tesis.teamsoft.presentation.dto;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 

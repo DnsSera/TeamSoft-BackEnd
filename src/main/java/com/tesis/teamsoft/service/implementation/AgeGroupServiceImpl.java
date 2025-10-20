@@ -6,27 +6,25 @@ import com.tesis.teamsoft.presentation.dto.AgeGroupDTO;
 import com.tesis.teamsoft.service.interfaces.IAgeGroupService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AgeGroupService implements IAgeGroupService {
+public class AgeGroupServiceImpl implements IAgeGroupService {
 
     @Autowired
-    IAgeGroupRepository ageGroupRepository;
+    private IAgeGroupRepository ageGroupRepository;
 
-    ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     @Override
     public AgeGroupDTO.AgeGroupResponseDTO saveAgeGroup(AgeGroupDTO.AgeGroupCreateDTO ageGroupDTO){
         try {
             AgeGroupEntity savedAgeGroup = modelMapper.map(ageGroupDTO, AgeGroupEntity.class);
             validateNonOverlappingAgeRange(savedAgeGroup);
-            ageGroupRepository.save(savedAgeGroup);
-            return modelMapper.map(ageGroupDTO, AgeGroupDTO.AgeGroupResponseDTO.class);
+            return modelMapper.map(ageGroupRepository.save(savedAgeGroup), AgeGroupDTO.AgeGroupResponseDTO.class);
         } catch (Exception e) {
             throw new RuntimeException("Error saving age group: " + e.getMessage());
         }

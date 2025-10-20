@@ -1,7 +1,7 @@
 package com.tesis.teamsoft.presentation.controller;
 
-import com.tesis.teamsoft.presentation.dto.AgeGroupDTO;
-import com.tesis.teamsoft.service.implementation.AgeGroupServiceImpl;
+import com.tesis.teamsoft.presentation.dto.ClientDTO;
+import com.tesis.teamsoft.service.implementation.ClientServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,37 +14,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@Tag(name = "AgeGroups")
-@RequestMapping("/ageGroup")
-public class AgeGroupController {
+@Tag(name = "Client")
+@RequestMapping("/client")
+public class ClientController {
 
     @Autowired
-    private AgeGroupServiceImpl ageGroupService;
+    private ClientServiceImpl clientService;
 
-    @RequestMapping(value = "/create_ageGroup", method = RequestMethod.POST)
-    public ResponseEntity<?> createAgeGroup(@Valid @RequestBody AgeGroupDTO.AgeGroupCreateDTO ageGroupDTO, BindingResult bindingResult) {
+    @RequestMapping(value = "/create_client", method = RequestMethod.POST)
+    public ResponseEntity<?> createClient(@Valid @RequestBody ClientDTO.ClientCreateDTO clientDTO, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error ->
                     errors.put(error.getField(), error.getDefaultMessage()));
-
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
         try {
-            return new ResponseEntity<>(ageGroupService.saveAgeGroup(ageGroupDTO), HttpStatus.CREATED);
+            return new ResponseEntity<>(clientService.saveClient(clientDTO), HttpStatus.CREATED);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/update_ageGroup/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateAgeGroup(@Valid @RequestBody AgeGroupDTO.AgeGroupCreateDTO ageGroupDTO
-            , BindingResult bindingResult
-            , @PathVariable long id) {
+    @RequestMapping(value = "/update_client/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateClient(@Valid @RequestBody ClientDTO.ClientCreateDTO clientDTO,
+                                          BindingResult bindingResult,
+                                          @PathVariable Long id) {
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -54,56 +53,51 @@ public class AgeGroupController {
         }
 
         try {
-            return new ResponseEntity<>(ageGroupService.updateAgeGroup(ageGroupDTO, id), HttpStatus.OK);
-
+            return new ResponseEntity<>(clientService.updateClient(clientDTO, id), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         }
     }
 
-    @RequestMapping(value = "/delete_ageGroup/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteReligion(@PathVariable Long id) {
-
+    @RequestMapping(value = "/delete_client/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteClient(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(ageGroupService.deleteAgeGroup(id), HttpStatus.OK);
+            return new ResponseEntity<>(clientService.deleteClient(id), HttpStatus.OK);
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.CONFLICT);
         }
     }
 
-    @RequestMapping(value = "/findAll_ageGroup", method = RequestMethod.GET)
-    public ResponseEntity<?> findAllReligions() {
+    @RequestMapping(value = "/findAll_client", method = RequestMethod.GET)
+    public ResponseEntity<?> findAllClient() {
         try {
-            return new ResponseEntity<>(ageGroupService.findAllByOrderByIdAsc(), HttpStatus.OK);
+            return new ResponseEntity<>(clientService.findAllByOrderByIdAsc(), HttpStatus.OK);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error> ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @RequestMapping(value = "findByID_ageGroup/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> findUserById(@PathVariable Long id) {
+    @RequestMapping(value = "/findByID_client/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> findClientById(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(ageGroupService.findAgeGroupById(id), HttpStatus.OK);
-
+            return new ResponseEntity<>(clientService.findClientById(id), HttpStatus.OK);
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
-            error.put("Error: ", e.getMessage());
+            error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         }
     }
