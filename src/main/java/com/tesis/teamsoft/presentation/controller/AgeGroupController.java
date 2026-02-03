@@ -105,7 +105,7 @@ public class AgeGroupController {
     @PreAuthorize("hasRole('GESTOR_RRHH')")
     public ResponseEntity<?> findAgeGroupById(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(ageGroupService.findAgeGroupById(id), HttpStatus.FOUND);
+            return new ResponseEntity<>(ageGroupService.findAgeGroupById(id), HttpStatus.OK);
 
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
