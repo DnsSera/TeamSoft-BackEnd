@@ -107,7 +107,7 @@ public class PersonController {
     @PreAuthorize("hasRole('GESTOR_RRHH')")
     public ResponseEntity<?> findAllPerson() {
         try {
-            return new ResponseEntity<>(personService.findAllByOrderByIdAsc(), HttpStatus.FOUND);
+            return new ResponseEntity<>(personService.findAllByOrderByIdAsc(), HttpStatus.OK);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
             error.put("Error", e.getMessage());
@@ -119,7 +119,7 @@ public class PersonController {
     @PreAuthorize("hasRole('GESTOR_RRHH')")
     public ResponseEntity<?> findPersonById(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(personService.findPersonById(id), HttpStatus.FOUND);
+            return new ResponseEntity<>(personService.findPersonById(id), HttpStatus.OK);
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
             error.put("Error", e.getMessage());
