@@ -38,7 +38,7 @@ public class ProjectStructureEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectStructure")
     private List<CycleEntity> cycleList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectStructure")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectStructure", orphanRemoval = true)
     private List<ProjectRolesEntity> projectRolesList;
     //===================================================================================
 
@@ -58,6 +58,10 @@ public class ProjectStructureEntity implements Serializable {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
+    }
+
+    public void setProjectRoles(List<ProjectRolesEntity> projectRolesEntities) {
+
     }
     //===================================================================================
 }

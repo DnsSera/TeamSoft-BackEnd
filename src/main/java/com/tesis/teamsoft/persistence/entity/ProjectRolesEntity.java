@@ -32,7 +32,7 @@ public class ProjectRolesEntity implements Serializable {
     @Column(name = "amount_workers_role")
     private long amountWorkersRole;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectRoles")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectRoles", orphanRemoval = true)
     private List<ProjectTechCompetenceEntity> projectTechCompetenceList;
 
     @JoinColumn(name = "project_structure_fk", referencedColumnName = "id")
