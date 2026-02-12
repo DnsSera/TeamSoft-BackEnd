@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface IProjectRepository extends JpaRepository<ProjectEntity, Long> {
-
     List<ProjectEntity> findAllByOrderByIdAsc();
+    List<ProjectEntity> findByCloseFalse();
+    boolean existsByProjectName(String projectName);
 }

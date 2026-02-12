@@ -340,7 +340,7 @@ public class TeamFormationStepThreeImpl implements ITeamFormationStepThreeServic
                     if (projects != null) {
                         for (Object proj : projects) {
                             ProjectRole projectRole = (ProjectRole) proj;
-                            projectNode = new ProjectDTO.ProjectTeamProposalDTO(modelMapper.map(projectRole.getProject(), ProjectDTO.ProjectResponseDTO.class));
+                            projectNode = new ProjectDTO.ProjectTeamProposalDTO(modelMapper.map(projectRole.getProject(), ProjectDTO.ProjectSimpleDTO.class));
 
                             for (RoleWorker pr : projectRole.getRoleWorkers()) {
                                 if (pr != null) {

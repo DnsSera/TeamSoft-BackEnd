@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -92,6 +93,14 @@ public class ProjectEntity implements Serializable {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
+    }
+
+    public void updateCycle(ProjectStructureEntity projectStructure) {
+        CycleEntity update = this.cycleList.getFirst();
+
+        update.setBeginDate(getInitialDate());
+        update.setEndDate(getEndDate());
+        update.setProjectStructure(projectStructure);
     }
     //===================================================================================
 }

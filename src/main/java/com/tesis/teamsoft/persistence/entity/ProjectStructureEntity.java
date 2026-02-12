@@ -59,9 +59,5 @@ public class ProjectStructureEntity implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-
-    public void setProjectRoles(List<ProjectRolesEntity> projectRolesEntities) {
-
-    }
     //===================================================================================
 }

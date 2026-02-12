@@ -35,11 +35,10 @@ public class ProjectStructureServiceImpl implements IProjectStructureService {
             ProjectStructureDTO.ProjectStructureCreateDTO projectStructureDTO) {
 
         try {
-            ProjectStructureEntity projectStructure = new ProjectStructureEntity();
-            projectStructure.setName(projectStructureDTO.getName());
+            ProjectStructureEntity projectStructure = modelMapper.map(projectStructureDTO, ProjectStructureEntity.class);
 
             if(projectStructureDTO.getProjectRoles() != null) {
-                projectStructure.setProjectRoles(processProjectRoles(projectStructureDTO.getProjectRoles(), projectStructure));
+                projectStructure.setProjectRolesList(processProjectRoles(projectStructureDTO.getProjectRoles(), projectStructure));
             }
 
             return convertToResponseDTO(projectStructureRepository.save(projectStructure));

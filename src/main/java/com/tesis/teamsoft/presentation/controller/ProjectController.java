@@ -1,10 +1,11 @@
 package com.tesis.teamsoft.presentation.controller;
 
-import com.tesis.teamsoft.presentation.dto.ProjectStructureDTO;
-import com.tesis.teamsoft.service.implementation.ProjectStructureServiceImpl;
+import com.tesis.teamsoft.presentation.dto.ProjectDTO;
+import com.tesis.teamsoft.service.implementation.ProjectServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,42 +13,37 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
-@Tag(name = "ProjectStructure")
-@RequestMapping("/project-structure")
-public class ProjectStructureController {
+@RequestMapping("/project")
+@Tag(name = "Project")
+public class ProjectController {
 
     @Autowired
-    private ProjectStructureServiceImpl projectStructureService;
+    private ProjectServiceImpl projectService;
 
     @PostMapping()
-    @PreAuthorize("hasRole('EXPERIMENTADOR') OR hasRole('DIRECTIVO_TECNICO')")
-    public ResponseEntity<?> createProjectStructure(
-            @Valid @RequestBody ProjectStructureDTO.ProjectStructureCreateDTO projectStructureDTO,
-            BindingResult bindingResult) {
-
+    public ResponseEntity<?> createProjects(
+            @Valid @RequestBody List<ProjectDTO.ProjectCreateDTO> projectDTOs, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error ->
                     errors.put(error.getField(), error.getDefaultMessage()));
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
-
-        try {
-            return new ResponseEntity<>(
-                    projectStructureService.saveProjectStructure(projectStructureDTO),
-                    HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
+        try{
+            return new ResponseEntity<>(projectService.saveProjects(projectDTOs), HttpStatus.CREATED);
+        }catch (IllegalArgumentException e){
             Map<String, String> error = new HashMap<>();
             error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        } catch (RuntimeException e) {
+        }catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
             error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
+        }catch (Exception e) {
             Map<String, String> error = new HashMap<>();
             error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -55,44 +51,43 @@ public class ProjectStructureController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('EXPERIMENTADOR') OR hasRole('DIRECTIVO_TECNICO')")
-    public ResponseEntity<?> updateProjectStructure(
-            @Valid @RequestBody ProjectStructureDTO.ProjectStructureCreateDTO projectStructureDTO,
-            BindingResult bindingResult,
-            @PathVariable Long id) {
-
+    public ResponseEntity<?> updateProject(
+            @PathVariable Long id, @Valid @RequestBody ProjectDTO.ProjectCreateDTO projectDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error ->
                     errors.put(error.getField(), error.getDefaultMessage()));
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
-
-        try {
-            return new ResponseEntity<>(
-                    projectStructureService.updateProjectStructure(projectStructureDTO, id),
-                    HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
+        try{
+            return new ResponseEntity<>(projectService.updateProject(projectDTO, id), HttpStatus.CREATED);
+        }catch (IllegalArgumentException e){
             Map<String, String> error = new HashMap<>();
             error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-        } catch (RuntimeException e) {
+        }catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
             error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
+        }catch (Exception e) {
             Map<String, String> error = new HashMap<>();
             error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    @PutMapping("close/{id}")
+    public ResponseEntity<?> closeProject(@PathVariable Long id){
+        try{
+            return new ResponseEntity<>(projectService.closeProject(id), HttpStatus.CREATED);
+        }
+    }
+
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('EXPERIMENTADOR') OR hasRole('DIRECTIVO_TECNICO')")
-    public ResponseEntity<?> deleteProjectStructure(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(projectStructureService.deleteProjectStructure(id), HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
+    public ResponseEntity<?> deleteProject(@PathVariable Long id) {
+        try{
+            return new ResponseEntity<>(projectService.deleteProject(id), HttpStatus.OK);
+        }catch (IllegalArgumentException e) {
             Map<String, String> error = new HashMap<>();
             error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.CONFLICT);
@@ -107,12 +102,11 @@ public class ProjectStructureController {
         }
     }
 
-    @GetMapping()
-    @PreAuthorize("hasRole('EXPERIMENTADOR') OR hasRole('DIRECTIVO_TECNICO')")
-    public ResponseEntity<?> findAllProjectStructure() {
-        try {
-            return new ResponseEntity<>(projectStructureService.findAllProjectStructure(), HttpStatus.OK);
-        } catch (Exception e) {
+    @GetMapping
+    public ResponseEntity<?> findAllProjects() {
+        try{
+            return new ResponseEntity<>(projectService.findAllProjects(), HttpStatus.OK);
+        }catch (Exception e) {
             Map<String, String> error = new HashMap<>();
             error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -120,11 +114,10 @@ public class ProjectStructureController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('EXPERIMENTADOR') OR hasRole('DIRECTIVO_TECNICO')")
-    public ResponseEntity<?> findProjectStructureById(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(projectStructureService.findProjectStructureById(id), HttpStatus.OK);
-        } catch (RuntimeException e) {
+    public ResponseEntity<?> findProjectById(@PathVariable Long id) {
+        try{
+            return new ResponseEntity<>(projectService.findProjectById(id), HttpStatus.OK);
+        }catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
             error.put("Error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);

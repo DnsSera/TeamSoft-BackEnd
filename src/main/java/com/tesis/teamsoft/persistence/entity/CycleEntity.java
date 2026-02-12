@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "cycle")
 public class CycleEntity implements Serializable {
@@ -68,6 +67,13 @@ public class CycleEntity implements Serializable {
 
     //Métodos
     //===================================================================================
+    public CycleEntity(ProjectEntity project, ProjectStructureEntity projectStructure) {
+        this.beginDate = project.getInitialDate();
+        this.endDate = project.getEndDate();
+        this.project = project;
+        this.projectStructure = projectStructure;
+    }
+
     @Override
     public boolean equals(Object object) {
         if(object instanceof CycleEntity other) {
