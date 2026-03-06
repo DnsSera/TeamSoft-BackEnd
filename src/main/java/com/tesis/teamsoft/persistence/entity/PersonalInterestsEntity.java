@@ -17,34 +17,28 @@ import java.io.Serializable;
 @Table(name = "personal_interests")
 public class PersonalInterestsEntity implements Serializable {
 
-    //Atributos
-    //===================================================================================
-    @Id//<--Marca el atributo como llave primaria de la entidad
-    @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
-    @NotNull//<--Se utiliza para especificar que un campo no puede ser null
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")//<--Indica que el valor de la llave primaria se genera automáticamente
-    @SequenceGenerator(sequenceName = "hibernate_sequence", allocationSize = 1, name = "CUST_SEQ")//<--Se utiliza para definir un generador de secuencias
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personalInterestsSeq")
+    @SequenceGenerator(name = "personalInterestsSeq", sequenceName = "hibernate_sequence", allocationSize = 1)
     private Long id;
 
-    @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "Preference is required")
+    @Column(nullable = false)
     private boolean preference;
 
-    @JoinColumn(name = "roles_fk", referencedColumnName = "id")//<--Establece la relacion con la clase RoleEnitty
+    @NotNull(message = "Role is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "roles_fk", nullable = false)
     private RoleEntity role;
 
-    @JoinColumn(name = "person_fk", referencedColumnName = "id")//<--Establece la relacion con la clase PersonEnitty
+    @NotNull(message = "Person is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "person_fk", nullable = false)
     private PersonEntity person;
-    //===================================================================================
 
-
-    //Métodos
-    //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof PersonalInterestsEntity other) {
+        if (object instanceof PersonalInterestsEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
         return false;
@@ -52,9 +46,6 @@ public class PersonalInterestsEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return id != null ? id.hashCode() : 0;
     }
-    //===================================================================================
 }

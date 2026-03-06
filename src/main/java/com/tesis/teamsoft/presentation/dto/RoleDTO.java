@@ -1,9 +1,7 @@
 package com.tesis.teamsoft.presentation.dto;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.util.List;
@@ -14,14 +12,15 @@ public class RoleDTO {
     @Data
     public static class RoleCreateDTO {
         @NotBlank(message = "Role name is required")
-        @Size(min = 1, max = 1024)
+        @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Only letters and spaces are allowed")
         private String roleName;
 
         @NotBlank(message = "Role description is required")
-        @Size(min = 1, max = 1024)
+        @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Only letters and spaces are allowed")
         private String roleDesc;
 
         @NotNull(message = "Impact is required")
+        @Min(value = 0, message = "Impact must be at least 0")
         private Float impact;
 
         @NotNull(message = "Is boss is required")

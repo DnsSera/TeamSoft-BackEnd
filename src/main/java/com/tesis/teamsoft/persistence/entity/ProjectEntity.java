@@ -2,14 +2,12 @@ package com.tesis.teamsoft.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,68 +19,56 @@ import java.util.List;
 @Table(name = "project")
 public class ProjectEntity implements Serializable {
 
-    //Atributos
-    //===================================================================================
-    @Id//<--Marca el atributo como llave primaria de la entidad
-    @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
-    @NotNull//<--Se utiliza para especificar que un campo no puede ser null
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")//<--Indica que el valor de la llave primaria se genera automáticamente
-    @SequenceGenerator(sequenceName = "hibernate_sequence", allocationSize = 1, name = "CUST_SEQ")//<--Se utiliza para definir un generador de secuencias
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projectSeq")
+    @SequenceGenerator(name = "projectSeq", sequenceName = "hibernate_sequence", allocationSize = 1)
     private Long id;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
-    @Column(name = "project_name")//<--Le asigna el nombre que tendra la columba en la base de datos
+    @NotNull(message = "Project name is required")
+    @Column(name = "project_name", nullable = false, unique = true)
     private String projectName;
 
-    @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "Close flag is required")
+    @Column(nullable = false)
     private boolean close;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "initial_date")
-    @Temporal(TemporalType.DATE)//<--Indica que la variable sera de tipo fecha
+    @NotNull(message = "Initial date is required")
+    @Column(name = "initial_date", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date initialDate;
 
-    @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "Finalize flag is required")
+    @Column(nullable = false)
     private boolean finalize;
 
     @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
     private Date endDate;
 
-    @JoinColumn(name = "client_entity_fk", referencedColumnName = "id")//<--Establece la relacion con la clase ClientEnitty
+    @NotNull(message = "Client is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "client_entity_fk", nullable = false)
     private ClientEntity client;
 
-    @JoinColumn(name = "role_eval_fk", referencedColumnName = "id")//<--Establece la relacion con la clase RoleEvaluaEnitty
+    @NotNull(message = "Role evaluation is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "role_eval_fk", nullable = false)
     private RoleEvaluationEntity roleEvaluation;
 
-    @JoinColumn(name = "province_fk", referencedColumnName = "id")//<--Establece la relacion con la clase CountyEnitty
+    @NotNull(message = "Province is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "province_fk", nullable = false)
     private CountyEntity province;
 
-    /*Se establece la relacion con Cycle(tabla y clase),
-     a traves del atributo mapeado(project) en la clase CycleEntity*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private List<CycleEntity> cycleList;
 
-    /*Se establece la relacion con PersonalProjectInterest(tabla y clase),
-     a traves del atributo mapeado(project) en la clase PersonalProjectInterestEntity*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private List<PersonalProjectInterestsEntity> personalProjectInterestsList;
-    //===================================================================================
 
-
-    //Métodos
-    //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof ProjectEntity other) {
+        if (object instanceof ProjectEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
         return false;
@@ -90,17 +76,13 @@ public class ProjectEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return id != null ? id.hashCode() : 0;
     }
 
     public void updateCycle(ProjectStructureEntity projectStructure) {
         CycleEntity update = this.cycleList.getFirst();
-
         update.setBeginDate(getInitialDate());
         update.setEndDate(getEndDate());
         update.setProjectStructure(projectStructure);
     }
-    //===================================================================================
 }

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Check;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,42 +19,37 @@ import java.util.List;
 @Table(name = "project_roles")
 public class ProjectRolesEntity implements Serializable {
 
-    //Atributos
-    //===================================================================================
-    @Id//<--Marca el atributo como llave primaria de la entidad
-    @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
-    @NotNull//<--Se utiliza para especificar que un campo no puede ser null
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")//<--Indica que el valor de la llave primaria se genera automáticamente
-    @SequenceGenerator(sequenceName = "hibernate_sequence", allocationSize = 1, name = "CUST_SEQ")//<--Se utiliza para definir un generador de secuencias
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projectRolesSeq")
+    @SequenceGenerator(name = "projectRolesSeq", sequenceName = "hibernate_sequence", allocationSize = 1)
     private Long id;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "amount_workers_role")
+    @NotNull(message = "Amount of workers role is required")
+    @Column(name = "amount_workers_role", nullable = false)
+    @Check(constraints = "amount_workers_role >= 1")
     private long amountWorkersRole;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectRoles", orphanRemoval = true)
     private List<ProjectTechCompetenceEntity> projectTechCompetenceList;
 
-    @JoinColumn(name = "project_structure_fk", referencedColumnName = "id")
+    @NotNull(message = "Project structure is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "project_structure_fk", nullable = false)
     private ProjectStructureEntity projectStructure;
 
-    @JoinColumn(name = "role_fk", referencedColumnName = "id")
+    @NotNull(message = "Role is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "role_fk", nullable = false)
     private RoleEntity role;
 
-    @JoinColumn(name = "role_load_fk", referencedColumnName = "id")
+    @NotNull(message = "Role load is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "role_load_fk", nullable = false)
     private RoleLoadEntity roleLoad;
-    //===================================================================================
 
-
-    //Métodos
-    //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof ProjectRolesEntity other) {
+        if (object instanceof ProjectRolesEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
         return false;
@@ -61,9 +57,6 @@ public class ProjectRolesEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return id != null ? id.hashCode() : 0;
     }
-    //===================================================================================
 }

@@ -23,7 +23,7 @@ public class PersonController {
     private PersonServiceImpl personService;
 
     @PostMapping()
-    @PreAuthorize("hasRole('GESTOR_RRHH')")
+
     public ResponseEntity<?> createPerson(@Valid @RequestBody PersonDTO.PersonCreateDTO personDTO, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -55,7 +55,7 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('GESTOR_RRHH')")
+
     public ResponseEntity<?> updatePerson(@Valid @RequestBody PersonDTO.PersonCreateDTO personDTO,
                                           BindingResult bindingResult,
                                           @PathVariable Long id) {
@@ -84,7 +84,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('GESTOR_RRHH')")
+
     public ResponseEntity<?> deletePerson(@PathVariable Long id) {
         try {
             return new ResponseEntity<>(personService.deletePerson(id), HttpStatus.OK);
@@ -104,7 +104,7 @@ public class PersonController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasRole('GESTOR_RRHH')")
+
     public ResponseEntity<?> findAllPerson() {
         try {
             return new ResponseEntity<>(personService.findAllByOrderByIdAsc(), HttpStatus.OK);
@@ -116,7 +116,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('GESTOR_RRHH')")
+
     public ResponseEntity<?> findPersonById(@PathVariable Long id) {
         try {
             return new ResponseEntity<>(personService.findPersonById(id), HttpStatus.OK);

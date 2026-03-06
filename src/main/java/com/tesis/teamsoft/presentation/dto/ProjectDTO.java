@@ -2,6 +2,7 @@ package com.tesis.teamsoft.presentation.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class ProjectDTO {
     public static class ProjectCreateDTO {
         @NotBlank(message = "Project name is required")
         @Size(max = 1024, message = "Project name max length is 1024")
+        @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Only letters and spaces are allowed")
         private String projectName;
 
         @NotNull(message = "Initial date is required")

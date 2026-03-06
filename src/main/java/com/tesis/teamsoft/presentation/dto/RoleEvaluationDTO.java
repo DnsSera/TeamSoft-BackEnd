@@ -1,9 +1,6 @@
 package com.tesis.teamsoft.presentation.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
@@ -16,6 +13,7 @@ public class RoleEvaluationDTO {
         private Float levels;
 
         @NotBlank(message = "Significance is required")
+        @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Only letters and spaces are allowed")
         private String significance;
     }
 

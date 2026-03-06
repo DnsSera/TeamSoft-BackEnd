@@ -37,6 +37,7 @@ public class PersonServiceImpl implements IPersonService {
     public PersonDTO.PersonResponseDTO savePerson(PersonDTO.PersonCreateDTO personDTO) {
         try {
             PersonEntity person = modelMapper.map(personDTO, PersonEntity.class);
+            person.setId(null);
 
             // Procesar relaciones simples
             processSimpleRelations(personDTO, person);
@@ -348,16 +349,14 @@ public class PersonServiceImpl implements IPersonService {
 
     private PersonTestEntity processPersonTest(PersonTestDTO.PersonTestCreateDTO personTestDTO, PersonEntity person) {
         PersonTestEntity pt = modelMapper.map(personTestDTO, PersonTestEntity.class);
-        pt.setPerson(person);
         return pt;
     }
 
     private List<PersonConflictEntity> processPersonConflicts(List<PersonConflictDTO.PersonConflictCreateDTO> personConflictsDTO, PersonEntity person) {
-        Set<String> processedConflictKeys = new HashSet<>();
+        Set<Long> processedConflictKeys = new HashSet<>();
 
         return personConflictsDTO.stream().map(dto -> {
-            String conflictKey = dto.getPersonConflictId() + "-" + dto.getConflictIndexId();
-            if (!processedConflictKeys.add(conflictKey)) {
+            if (!processedConflictKeys.add(dto.getPersonConflictId())) {
                 throw new IllegalArgumentException("Duplicate person conflict: person " + dto.getPersonConflictId() + " with index " + dto.getConflictIndexId());
             }
 

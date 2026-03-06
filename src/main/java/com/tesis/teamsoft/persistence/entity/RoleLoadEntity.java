@@ -2,7 +2,6 @@ package com.tesis.teamsoft.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,34 +18,25 @@ import java.util.List;
 @Table(name = "role_load")
 public class RoleLoadEntity implements Serializable {
 
-    //Atributos
-    //===================================================================================
-    @Id//<--Marca el atributo como llave primaria de la entidad
-    @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
-    @NotNull//<--Se utiliza para especificar que un campo no puede ser null
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")//<--Indica que el valor de la llave primaria se genera automáticamente
-    @SequenceGenerator(sequenceName = "hibernate_sequence", allocationSize = 1, name = "CUST_SEQ")//<--Se utiliza para definir un generador de secuencias
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roleLoadSeq")
+    @SequenceGenerator(name = "roleLoadSeq", sequenceName = "hibernate_sequence", allocationSize = 1)
     private Long id;
 
-    @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "Value is required")
+    @Column(nullable = false)
     private float value;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1024)
+    @NotNull(message = "Significance is required")
+    @Column(nullable = false, unique = true)
     private String significance;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleLoad")
     private List<ProjectRolesEntity> projectRolesList;
-    //===================================================================================
 
-
-    //Métodos
-    //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof RoleLoadEntity other) {
+        if (object instanceof RoleLoadEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
         return false;
@@ -54,9 +44,6 @@ public class RoleLoadEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return id != null ? id.hashCode() : 0;
     }
-    //===================================================================================
 }

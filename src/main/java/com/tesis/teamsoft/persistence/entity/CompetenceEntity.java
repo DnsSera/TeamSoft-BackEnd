@@ -19,53 +19,37 @@ import java.util.List;
 @Table(name = "competence")
 public class CompetenceEntity implements Serializable {
 
-    //Atributos
-    //===================================================================================
-    @Id//<--Marca el atributo como llave primaria de la entidad
-    @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
-    @NotNull//<--Se utiliza para especificar que un campo no puede ser null
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")//<--Indica que el valor de la llave primaria se genera automáticamente
-    @SequenceGenerator(sequenceName = "hibernate_sequence", allocationSize = 1, name = "CUST_SEQ")//<--Se utiliza para definir un generador de secuencias
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "competenceSeq")
+    @SequenceGenerator(name = "competenceSeq", sequenceName = "hibernate_sequence", allocationSize = 1)
     private Long id;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
-    @Column(name = "competition_name")//<--Le asigna el nombre que tendra la columba en la base de datos
+    @NotNull(message = "Competition name is required")
+    @Column(name = "competition_name", nullable = false, unique = true)
     private String competitionName;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1024)
+    @NotNull(message = "Description is required")
+    @Column(nullable = false, unique = true)
     private String description;
 
+    @Column(name = "technical", nullable = false)
     private Boolean technical;
 
-    /*Se establece la relacion con RoleCompetition(tabla y clase),
-     a traves del atributo mapeado(competence) en la clase RoleCompetitionEntity*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
     private List<RoleCompetitionEntity> roleCompetitionList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
     private List<ProjectTechCompetenceEntity> projectTechCompetenceList;
 
-    /*Se establece la relacion con CompetenceValue(tabla y clase),
-     a traves del atributo mapeado(competence) en la clase CompetenceValueEntity*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
     private List<CompetenceValueEntity> competenceValueList;
 
-    /*Se establece la relacion con CompetenceDimensionEntity(tabla y clase),
-     a traves del atributo mapeado(competence) en la clase CompetenceDimensionEntity*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
     private List<CompetenceDimensionEntity> competenceDimensionList;
-    //===================================================================================
 
-
-    //Métodos
-    //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof CompetenceEntity other) {
+        if (object instanceof CompetenceEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
         return false;
@@ -73,9 +57,6 @@ public class CompetenceEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return id != null ? id.hashCode() : 0;
     }
-    //===================================================================================
 }

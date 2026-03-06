@@ -1,5 +1,6 @@
 package com.tesis.teamsoft.presentation.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ public class ProjectRoleDTO {
         private Long roleLoad;
 
         @NotNull(message = "Amount of workers is required")
+        @Min(value = 1, message = "Amount of workers must be at least 1")
         private Long amountWorkersRole;
     }
 

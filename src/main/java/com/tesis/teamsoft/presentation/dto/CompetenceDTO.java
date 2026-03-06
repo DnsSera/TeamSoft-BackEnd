@@ -1,5 +1,6 @@
 package com.tesis.teamsoft.presentation.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -12,17 +13,18 @@ public class CompetenceDTO {
 
     @Data
     public static class CompetenceCreateDTO{
-        @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Only letters and spaces are allowed")
         @NotBlank(message = "Competence name is required")
+        @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Only letters and spaces are allowed")
         private String competitionName;
 
-        @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Only letters and spaces are allowed")
         @NotBlank(message = "Competence description is required")
+        @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Only letters and spaces are allowed")
         private String description;
 
         @NotNull(message = "Define if technical competency")
         private Boolean technical;
 
+        @Valid
         List<CompetenceDimensionDTO.CompetenceDimensionCreateDTO> dimensionList;
     }
 

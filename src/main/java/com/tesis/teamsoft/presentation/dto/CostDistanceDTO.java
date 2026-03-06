@@ -1,5 +1,6 @@
 package com.tesis.teamsoft.presentation.dto;
 
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -18,6 +19,11 @@ public class CostDistanceDTO {
 
         @NotNull(message = "County B is required")
         private Long countyBId;
+
+        @AssertTrue(message = "County A and County B must be different")
+        public boolean isCountiesDifferent() {
+            return countyAId != null && countyBId != null && !countyAId.equals(countyBId);
+        }
     }
 
     @Data

@@ -14,21 +14,26 @@ public class PersonDTO {
     @Data
     public static class PersonCreateDTO {
         @NotBlank(message = "Person name is required")
+        @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Only letters and spaces are allowed")
         private String personName;
 
         @NotBlank(message = "ID card is required")
+        @Pattern(regexp = "^[0-9]+$", message = "Card can only contain digits, spaces, plus and hyphen")
         private String card;
 
         @NotBlank(message = "Surname is required")
+        @Pattern(regexp = "^[\\p{L}\\s]+$", message = "Only letters and spaces are allowed")
         private String surName;
 
         @NotBlank(message = "Address is required")
         private String address;
 
         @NotBlank(message = "Phone is required")
+        @Pattern(regexp = "^[0-9]+$", message = "Phone can only contain digits, spaces, plus and hyphen")
         private String phone;
 
         @NotNull(message = "Sex is required")
+        @Pattern(regexp = "^[MF]$", message = "Sex must be 'M' or 'F'")
         private Character sex;
 
         @NotBlank(message = "Email is required")
@@ -48,9 +53,10 @@ public class PersonDTO {
         private String status;
 
         @NotNull(message = "Birth date is required")
+        @Past(message = "Birth date must be in the past")
         private Date birthDate;
 
-        // IDs de entidades relacionadas
+
         @NotNull(message = "County ID is required")
         private Long county;
 
@@ -66,7 +72,7 @@ public class PersonDTO {
         @NotNull(message = "Religion ID is required")
         private Long religion;
 
-        // Listas de relaciones
+
         @Valid
         private List<CompetenceValueDTO.CompetenceValueCreateDTO> competenceValues;
 

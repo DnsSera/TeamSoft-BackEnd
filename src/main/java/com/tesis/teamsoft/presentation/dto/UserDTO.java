@@ -11,27 +11,26 @@ public class UserDTO {
     @Data
     public static class UserCreateDTO {
         @NotBlank(message = "Person name is required")
-        @Size(min = 1, max = 50, message = "Person name must be between 1 and 50 characters")
+        @Size(min = 1, message = "Person name must be at least 3 characters")
         private String personName;
 
         @NotBlank(message = "Surname is required")
-        @Size(min = 1, max = 50, message = "Surname must be between 1 and 50 characters")
+        @Size(min = 1, message = "Person surname must be at least 3 characters")
         private String surname;
 
         @NotBlank(message = "ID card is required")
-        @Size(min = 1, max = 50, message = "ID card must be between 1 and 50 characters")
+        @Pattern(regexp = "^[0-9+\\-\\s]+$", message = "Phone can only contain digits, spaces, plus and hyphen")
         private String idCard;
 
         @NotBlank(message = "Email is required")
         @Email(message = "Email should be valid")
-        @Size(min = 1, max = 50, message = "Email must be between 1 and 50 characters")
         private String mail;
 
         @NotNull(message = "Enabled status is required")
         private boolean enabled;
 
-//        @NotNull(message = "At least one role is required")
-//        @Size(min = 1, message = "At least one role must be selected")
+        @NotNull(message = "At least one role is required")
+        @Size(min = 1, message = "At least one role must be selected")
         private Set<Long> roleIds;
     }
 

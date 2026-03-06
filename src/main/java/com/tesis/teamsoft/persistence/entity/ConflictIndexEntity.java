@@ -19,36 +19,25 @@ import java.util.List;
 @Table(name = "conflict_index")
 public class ConflictIndexEntity implements Serializable {
 
-    //Atributos
-    //===================================================================================
-    @Id//<--Marca el atributo como llave primaria de la entidad
-    @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
-    @NotNull//<--Se utiliza para especificar que un campo no puede ser null
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")//<--Indica que el valor de la llave primaria se genera automáticamente
-    @SequenceGenerator(sequenceName = "hibernate_sequence", allocationSize = 1, name = "CUST_SEQ")//<--Se utiliza para definir un generador de secuencias
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "conflictIndexSeq")
+    @SequenceGenerator(name = "conflictIndexSeq", sequenceName = "hibernate_sequence", allocationSize = 1)
     private Long id;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1024)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
+    @NotNull(message = "Description is required")
+    @Column(nullable = false, unique = true)
     private String description;
 
-    @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "Weight is required")
+    @Column(nullable = false)
     private long weight;
 
-    /*Se establece la relacion con PersonConflict(tabla y clase),
-     a traves del atributo mapeado(religion) en la clase PersonConflictEntity*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "index")
     private List<PersonConflictEntity> personConflictList;
-    //===================================================================================
 
-
-    //Métodos
-    //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof ConflictIndexEntity other) {
+        if (object instanceof ConflictIndexEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
         return false;
@@ -56,9 +45,6 @@ public class ConflictIndexEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return id != null ? id.hashCode() : 0;
     }
-    //===================================================================================
 }

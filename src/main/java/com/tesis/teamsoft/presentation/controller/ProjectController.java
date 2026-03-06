@@ -80,6 +80,9 @@ public class ProjectController {
     public ResponseEntity<?> closeProject(@PathVariable Long id){
         try{
             return new ResponseEntity<>(projectService.closeProject(id), HttpStatus.CREATED);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 

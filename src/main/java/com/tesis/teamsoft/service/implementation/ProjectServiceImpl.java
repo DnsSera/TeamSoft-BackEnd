@@ -133,6 +133,7 @@ public class ProjectServiceImpl implements IProjectService {
 
     @Override
     public ProjectDTO.ProjectResponseDTO findProjectById(Long id) {
+
         List<ProjectEntity> allProjects = projectRepository.findAll();
         Map<Long, ProjectEntity> projectMap = allProjects.stream()
                 .collect(Collectors.toMap(ProjectEntity::getId, Function.identity()));

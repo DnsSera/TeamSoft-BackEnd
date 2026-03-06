@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,66 +19,51 @@ import java.util.Set;
 @Table(name = "users")
 public class UserEntity implements Serializable {
 
-    //Atributos
-    //===================================================================================
-    @Id//<--Marca el atributo como llave primaria de la entidad
-    @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
-    @NotNull//<--Se utiliza para especificar que un campo no puede ser null
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")//<--Indica que el valor de la llave primaria se genera automáticamente
-    @SequenceGenerator(sequenceName = "hibernate_sequence", allocationSize = 1, name = "CUST_SEQ")//<--Se utiliza para definir un generador de secuencias
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSeq")
+    @SequenceGenerator(name = "userSeq", sequenceName = "hibernate_sequence", allocationSize = 1)
     private Long id;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)//<--Restringe el tamaño del elemento, dandole mínimo y máximo
-    @Column(name = "person_name")//<--Le asigna el nombre que tendra la columba en la base de datos
+    @NotNull(message = "Person name is required")
+    @Column(name = "person_name", nullable = false)
     private String personName;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @NotNull(message = "Surname is required")
+    @Column(nullable = false)
     private String surname;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "id_card")
+    @NotNull(message = "ID card is required")
+    @Column(name = "id_card", nullable = false)
     private String idCard;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @NotNull(message = "Mail is required")
+    @Column(nullable = false, unique = true)
     private String mail;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @NotNull(message = "Username is required")
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1024)
+    @NotNull(message = "Password is required")
+    @Size(min = 1, max = 1024, message = "Password must be between 1 and 1024 characters")
+    @Column(nullable = false, length = 1024)
     private String password;
 
-    @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "Enabled flag is required")
+    @Column(nullable = false)
     private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = UserRoleEntity.class)
-    @JoinTable(name = "authorities",
+    @JoinTable(
+            name = "authorities",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "user_role_id")
     )
     private Set<UserRoleEntity> roles;
 
-    //===================================================================================
-
-
-    //Métodos
-    //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof UserEntity other) {
+        if (object instanceof UserEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
         return false;
@@ -87,9 +71,6 @@ public class UserEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return id != null ? id.hashCode() : 0;
     }
-    //===================================================================================
 }

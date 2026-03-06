@@ -17,38 +17,34 @@ import java.io.Serializable;
 @Table(name = "role_competition")
 public class RoleCompetitionEntity implements Serializable {
 
-    //Atributos
-    //===================================================================================
-    @Id//<--Marca el atributo como llave primaria de la entidad
-    @Basic(optional = false)//<--Se utiliza para definir que un atributo es obligatorio y debe tener valor
-    @NotNull//<--Se utiliza para especificar que un campo no puede ser null
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")//<--Indica que el valor de la llave primaria se genera automáticamente
-    @SequenceGenerator(sequenceName = "hibernate_sequence", allocationSize = 1, name = "CUST_SEQ")//<--Se utiliza para definir un generador de secuencias
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roleCompetitionSeq")
+    @SequenceGenerator(name = "roleCompetitionSeq", sequenceName = "hibernate_sequence", allocationSize = 1)
     private Long id;
 
-    @JoinColumn(name = "competence_fk", referencedColumnName = "id")//<--Establece la relacion con la clase CompetenceEnitty
+    @NotNull(message = "Competence is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "competence_fk", nullable = false)
     private CompetenceEntity competence;
 
-    @JoinColumn(name = "competence_importance_", referencedColumnName = "id")//<--Establece la relacion con la clase CompetenceImportanceEnitty
+    @NotNull(message = "Competence importance is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "competence_importance_", nullable = false)
     private CompetenceImportanceEntity competenceImportance;
 
-    @JoinColumn(name = "levels_fk", referencedColumnName = "id")//<--Establece la relacion con la clase LevelsEnitty
+    @NotNull(message = "Level is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "levels_fk", nullable = false)
     private LevelsEntity level;
 
-    @JoinColumn(name = "roles_fk", referencedColumnName = "id")//<--Establece la relacion con la clase RoleEnitty
+    @NotNull(message = "Role is required")
     @ManyToOne(optional = false)
+    @JoinColumn(name = "roles_fk", nullable = false)
     private RoleEntity role;
-    //===================================================================================
 
-
-    //Métodos
-    //===================================================================================
     @Override
     public boolean equals(Object object) {
-        if(object instanceof RoleCompetitionEntity other) {
+        if (object instanceof RoleCompetitionEntity other) {
             return this.id != null && other.id != null && this.id.equals(other.id);
         }
         return false;
@@ -56,9 +52,6 @@ public class RoleCompetitionEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+        return id != null ? id.hashCode() : 0;
     }
-    //===================================================================================
 }
