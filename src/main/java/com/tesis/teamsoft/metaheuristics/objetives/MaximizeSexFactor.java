@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tesis.teamsoft.persistence.entity.PersonEntity;
+import com.tesis.teamsoft.persistence.entity.auxiliary.Gender;
 import lombok.Getter;
 import lombok.Setter;
 import com.tesis.teamsoft.pojos.TeamFormationParameters;
@@ -55,7 +56,7 @@ public class MaximizeSexFactor extends ObjetiveFunction {
             cantWorkerProject += workers.size(); // Obtener todos los trabajadores totales
 
             for (PersonEntity worker : workers) {
-                if (worker.getSex() == 'M') {
+                if (worker.getSex() == Gender.M) {
                     cantMale++;
                 } else {
                     cantFemale++;

@@ -4,6 +4,7 @@ import com.tesis.teamsoft.persistence.entity.PersonEntity;
 import com.tesis.teamsoft.persistence.entity.PersonTestEntity;
 import com.tesis.teamsoft.metaheuristics.auxiliary.ProjectRole;
 import com.tesis.teamsoft.metaheuristics.auxiliary.RoleWorker;
+import com.tesis.teamsoft.persistence.entity.auxiliary.BelbinRole;
 import problem.definition.State;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class IsISCO extends Constrain {
         PersonTestEntity workerTest = (PersonTestEntity) worker.getPersonTest();
 
         if (workerTest != null) { //si se registraron sus caracteristicas psicologicas
-            if ((workerTest.getCO() == 'I' || workerTest.getCO() == 'E') && (workerTest.getIS() == 'I' || workerTest.getIS() == 'E')) {
+            if ((workerTest.getCO() == BelbinRole.I || workerTest.getCO() == BelbinRole.E) && (workerTest.getIS() == BelbinRole.I || workerTest.getIS() == BelbinRole.E)) {
                 meet = false;
             }
         } else {  //si no se cuenta con los datos psicologicos de la persona

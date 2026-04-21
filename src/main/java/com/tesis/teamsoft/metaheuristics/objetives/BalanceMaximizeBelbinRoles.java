@@ -5,6 +5,7 @@ import com.tesis.teamsoft.persistence.entity.PersonTestEntity;
 import com.tesis.teamsoft.metaheuristics.auxiliary.ObjetiveFunctionUtil;
 import com.tesis.teamsoft.metaheuristics.auxiliary.ProjectRole;
 import com.tesis.teamsoft.metaheuristics.auxiliary.RoleWorker;
+import com.tesis.teamsoft.persistence.entity.auxiliary.BelbinRole;
 import problem.definition.ObjetiveFunction;
 import problem.definition.State;
 
@@ -70,31 +71,31 @@ public class BalanceMaximizeBelbinRoles extends ObjetiveFunction {
                 PersonTestEntity workerTest = worker.getPersonTest(); //obtener caracteristicas psicologicas
 
                 if (workerTest != null) {
-                    if (workerTest.getIM() != 'I' && workerTest.getIM() != 'E' && ID != 1) {
+                    if (workerTest.getIM() != BelbinRole.I && workerTest.getIM() != BelbinRole.E && ID != 1) {
                         ID = 1;
                     }
-                    if (workerTest.getIS() != 'I' && workerTest.getIS() != 'E' && IS != 1) {
+                    if (workerTest.getIS() != BelbinRole.I && workerTest.getIS() != BelbinRole.E && IS != 1) {
                         IS = 1;
                     }
-                    if (workerTest.getIF() != 'I' && workerTest.getIF() != 'E' && IF != 1) {
+                    if (workerTest.getIF() != BelbinRole.I && workerTest.getIF() != BelbinRole.E && IF != 1) {
                         IF = 1;
                     }
-                    if (workerTest.getCE() != 'I' && workerTest.getCE() != 'E' && CE != 1) {
+                    if (workerTest.getCE() != BelbinRole.I && workerTest.getCE() != BelbinRole.E && CE != 1) {
                         CE = 1;
                     }
-                    if (workerTest.getME() != 'I' && workerTest.getME() != 'E' && ME != 1) {
+                    if (workerTest.getME() != BelbinRole.I && workerTest.getME() != BelbinRole.E && ME != 1) {
                         ME = 1;
                     }
-                    if (workerTest.getES() != 'I' && workerTest.getES() != 'E' && ES != 1) {
+                    if (workerTest.getES() != BelbinRole.I && workerTest.getES() != BelbinRole.E && ES != 1) {
                         ES = 1;
                     }
-                    if (workerTest.getCO() != 'I' && workerTest.getCO() != 'E' && CO != 1) {
+                    if (workerTest.getCO() != BelbinRole.I && workerTest.getCO() != BelbinRole.E && CO != 1) {
                         CO = 1;
                     }
-                    if (workerTest.getCH() != 'I' && workerTest.getCH() != 'E' && CH != 1) {
+                    if (workerTest.getCH() != BelbinRole.I && workerTest.getCH() != BelbinRole.E && CH != 1) {
                         CH = 1;
                     }
-                    if (workerTest.getIR() != 'I' && workerTest.getIR() != 'E' && IR != 1) {
+                    if (workerTest.getIR() != BelbinRole.I && workerTest.getIR() != BelbinRole.E && IR != 1) {
                         IR = 1;
                     }
 

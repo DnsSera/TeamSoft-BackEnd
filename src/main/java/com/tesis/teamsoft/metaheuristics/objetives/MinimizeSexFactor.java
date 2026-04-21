@@ -6,6 +6,7 @@ import com.tesis.teamsoft.pojos.TeamFormationParameters;
 import com.tesis.teamsoft.metaheuristics.auxiliary.ObjetiveFunctionUtil;
 import com.tesis.teamsoft.metaheuristics.auxiliary.ProjectRole;
 import com.tesis.teamsoft.persistence.entity.PersonEntity;
+import com.tesis.teamsoft.persistence.entity.auxiliary.Gender;
 import lombok.Getter;
 import lombok.Setter;
 import problem.definition.ObjetiveFunction;
@@ -54,7 +55,7 @@ public class MinimizeSexFactor extends ObjetiveFunction {
         cantWorkerProject += workers.size(); // Obtener todos los trabajadores totales
 
         for (PersonEntity worker : workers) {
-            if (worker.getSex() == 'M') {
+            if (worker.getSex() == Gender.M) {
                 cantMale++;
             } else {
                 cantFemale++;

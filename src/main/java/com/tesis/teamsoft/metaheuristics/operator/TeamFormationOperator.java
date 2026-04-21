@@ -3,6 +3,7 @@ package com.tesis.teamsoft.metaheuristics.operator;
 import com.tesis.teamsoft.config.AlgorithmConfig;
 import com.tesis.teamsoft.metaheuristics.auxiliary.TeamFormationProblem;
 import com.tesis.teamsoft.persistence.entity.PersonEntity;
+import com.tesis.teamsoft.persistence.entity.auxiliary.BelbinRole;
 import metaheurictics.strategy.Strategy;
 import com.tesis.teamsoft.persistence.entity.*;
 import com.tesis.teamsoft.metaheuristics.auxiliary.*;
@@ -895,17 +896,17 @@ public class TeamFormationOperator extends Operator {
             if (workerTest != null) {
                 //              int code = 0;
                 //action role
-                if ((workerTest.getIM() != 'I' && workerTest.getIM() != 'E') || (workerTest.getIS() != 'I' && workerTest.getIS() != 'E') || (workerTest.getIF() != 'I' && workerTest.getIF() != 'E')) {
+                if ((workerTest.getIM() != BelbinRole.I && workerTest.getIM() != BelbinRole.E) || (workerTest.getIS() != BelbinRole.I && workerTest.getIS() != BelbinRole.E) || (workerTest.getIF() != BelbinRole.I && workerTest.getIF() != BelbinRole.E)) {
                     belbinRoles.get(1).getCategoryWorkers().add(worker); // code += 010;
                 }
 
                 //mental role
-                if ((workerTest.getCE() != 'I' && workerTest.getCE() != 'E') || (workerTest.getME() != 'I' && workerTest.getME() != 'E') || (workerTest.getES() != 'I' && workerTest.getES() != 'E')) {
+                if ((workerTest.getCE() != BelbinRole.I && workerTest.getCE() != BelbinRole.E) || (workerTest.getME() != BelbinRole.I && workerTest.getME() != BelbinRole.E) || (workerTest.getES() != BelbinRole.I && workerTest.getES() != BelbinRole.E)) {
                     belbinRoles.get(2).getCategoryWorkers().add(worker); // code += 001;
                 }
 
                 //social role
-                if ((workerTest.getCO() != 'I' && workerTest.getCO() != 'E') || (workerTest.getCH() != 'I' && workerTest.getCH() != 'E') || (workerTest.getIR() != 'I' && workerTest.getIR() != 'E')) {
+                if ((workerTest.getCO() != BelbinRole.I && workerTest.getCO() != BelbinRole.E) || (workerTest.getCH() != BelbinRole.I && workerTest.getCH() != BelbinRole.E) || (workerTest.getIR() != BelbinRole.I && workerTest.getIR() != BelbinRole.E)) {
                     belbinRoles.getFirst().getCategoryWorkers().add(worker); // code += 100;
                 }
             }
@@ -974,15 +975,15 @@ public class TeamFormationOperator extends Operator {
 
             if (workerTest != null) {
                 //action role
-                if ((workerTest.getIM() != 'I' && workerTest.getIM() != 'E') || (workerTest.getIS() != 'I' && workerTest.getIS() != 'E') || (workerTest.getIF() != 'I' && workerTest.getIF() != 'E')) {
+                if ((workerTest.getIM() != BelbinRole.I && workerTest.getIM() != BelbinRole.E) || (workerTest.getIS() != BelbinRole.I && workerTest.getIS() != BelbinRole.E) || (workerTest.getIF() != BelbinRole.I && workerTest.getIF() != BelbinRole.E)) {
                     workerBelbinCategories += 10;
                 }
                 //mental role
-                if ((workerTest.getCE() != 'I' && workerTest.getCE() != 'E') || (workerTest.getME() != 'I' && workerTest.getME() != 'E') || (workerTest.getES() != 'I' && workerTest.getES() != 'E')) {
+                if ((workerTest.getCE() != BelbinRole.I && workerTest.getCE() != BelbinRole.E) || (workerTest.getME() != BelbinRole.I && workerTest.getME() != BelbinRole.E) || (workerTest.getES() != BelbinRole.I && workerTest.getES() != BelbinRole.E)) {
                     workerBelbinCategories += 1;
                 }
                 //social role
-                if ((workerTest.getCO() != 'I' && workerTest.getCO() != 'E') || (workerTest.getCH() != 'I' && workerTest.getCH() != 'E') || (workerTest.getIR() != 'I' && workerTest.getIR() != 'E')) {
+                if ((workerTest.getCO() != BelbinRole.I && workerTest.getCO() != BelbinRole.E) || (workerTest.getCH() != BelbinRole.I && workerTest.getCH() != BelbinRole.E) || (workerTest.getIR() != BelbinRole.I && workerTest.getIR() != BelbinRole.E)) {
                     workerBelbinCategories += 100;
                 }
             }

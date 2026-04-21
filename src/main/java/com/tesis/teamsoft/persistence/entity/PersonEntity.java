@@ -1,5 +1,6 @@
 package com.tesis.teamsoft.persistence.entity;
 
+import com.tesis.teamsoft.persistence.entity.auxiliary.Gender;
 import com.tesis.teamsoft.persistence.entity.auxiliary.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -57,8 +58,9 @@ public class PersonEntity implements Serializable {
     private String phone;
 
     @NotNull(message = "Sex is required")
-    @Column(nullable = false, columnDefinition = "char(1) check (sex in ('M','F', 'O'))")
-    private Character sex;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 1)
+    private Gender sex;
 
     @NotNull(message = "Email is required")
     @Size(max = 1024, message = "Email cannot exceed 1024 characters")

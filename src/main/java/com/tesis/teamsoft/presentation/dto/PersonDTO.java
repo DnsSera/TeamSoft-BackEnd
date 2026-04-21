@@ -1,5 +1,6 @@
 package com.tesis.teamsoft.presentation.dto;
 
+import com.tesis.teamsoft.persistence.entity.auxiliary.Gender;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
@@ -35,8 +36,7 @@ public class PersonDTO {
         private String phone;
 
         @NotNull(message = "Sex is required")
-        @Pattern(regexp = "^[MFO]$", message = "Sex must be 'M' or 'F'")
-        private Character sex;
+        private Gender sex;
 
         @NotBlank(message = "Email is required")
         @Email(message = "Email should be valid")
@@ -94,7 +94,7 @@ public class PersonDTO {
         private String surName;
         private String address;
         private String phone;
-        private Character sex;
+        private Gender sex;
         private String email;
         private Date inDate;
         private Float workload;

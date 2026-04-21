@@ -1,12 +1,12 @@
 package com.tesis.teamsoft.persistence.entity;
 
+import com.tesis.teamsoft.persistence.entity.auxiliary.BelbinRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Check;
 
 import java.io.Serializable;
 
@@ -24,53 +24,52 @@ public class PersonTestEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "e_s", nullable = false)
-    @Check(constraints = "e_s IN ('P', 'E', 'I')")
-    private Character eS;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "e_s", nullable = false, length = 1)
+    private BelbinRole eS;
 
     @NotNull
-    @Column(name = "i_m", nullable = false)
-    @Check(constraints = "i_m IN ('P', 'E', 'I')")
-    private Character iM;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "i_m", nullable = false, length = 1)
+    private BelbinRole iM;
 
     @NotNull
-    @Column(name = "c_o", nullable = false)
-    @Check(constraints = "c_o IN ('P', 'E', 'I')")
-    private Character cO;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "c_o", nullable = false, length = 1)
+    private BelbinRole cO;
 
     @NotNull
-    @Column(name = "i_s", nullable = false)
-    @Check(constraints = "i_s IN ('P', 'E', 'I')")
-    private Character iS;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "i_s", nullable = false, length = 1)
+    private BelbinRole iS;
 
     @NotNull
-    @Column(name = "c_e", nullable = false)
-    @Check(constraints = "c_e IN ('P', 'E', 'I')")
-    private Character cE;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "c_e", nullable = false, length = 1)
+    private BelbinRole cE;
 
     @NotNull
-    @Column(name = "i_r", nullable = false)
-    @Check(constraints = "i_r IN ('P', 'E', 'I')")
-    private Character iR;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "i_r", nullable = false, length = 1)
+    private BelbinRole iR;
 
     @NotNull
-    @Column(name = "m_e", nullable = false)
-    @Check(constraints = "m_e IN ('P', 'E', 'I')")
-    private Character mE;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "m_e", nullable = false, length = 1)
+    private BelbinRole mE;
 
     @NotNull
-    @Column(name = "c_h", nullable = false)
-    @Check(constraints = "c_h IN ('P', 'E', 'I')")
-    private Character cH;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "c_h", nullable = false, length = 1)
+    private BelbinRole cH;
 
     @NotNull
-    @Column(name = "i_f", nullable = false)
-    @Check(constraints = "i_f IN ('P', 'E', 'I')")
-    private Character iF;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "i_f", nullable = false, length = 1)
+    private BelbinRole iF;
 
     @NotNull(message = "MBTI result is required")
     @Column(name = "mbti_type", nullable = false)
-    @Check(constraints = "mbti_type IN ('INTJ', 'INTP', 'ISTJ', 'ISTP', 'INFJ', 'INFP', 'ISFJ', 'ISFP', 'ENTJ', 'ENTP', 'ESTJ', 'ESTP', 'ENFJ', 'ENFP', 'ESFJ', 'ESFP')")
     private String mbtiType;
 
     @NotNull(message = "Person is required")

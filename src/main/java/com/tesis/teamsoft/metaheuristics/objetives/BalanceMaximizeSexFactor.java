@@ -2,6 +2,7 @@ package com.tesis.teamsoft.metaheuristics.objetives;
 
 import com.tesis.teamsoft.pojos.TeamFormationParameters;
 import com.tesis.teamsoft.persistence.entity.PersonEntity;
+import com.tesis.teamsoft.persistence.entity.auxiliary.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,7 +58,7 @@ public class BalanceMaximizeSexFactor extends ObjetiveFunction {
         }
 
         for (PersonEntity worker : workers) {
-            if (worker.getSex() == 'M') {
+            if (worker.getSex() == Gender.M) {
                 cantMale++;
             } else {
                 cantFemale++;

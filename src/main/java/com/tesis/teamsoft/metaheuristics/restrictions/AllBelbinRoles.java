@@ -2,6 +2,7 @@ package com.tesis.teamsoft.metaheuristics.restrictions;
 
 import com.tesis.teamsoft.persistence.entity.PersonEntity;
 import com.tesis.teamsoft.persistence.entity.PersonTestEntity;
+import com.tesis.teamsoft.persistence.entity.auxiliary.BelbinRole;
 import metaheurictics.strategy.Strategy;
 import com.tesis.teamsoft.metaheuristics.auxiliary.ProjectRole;
 import com.tesis.teamsoft.metaheuristics.auxiliary.RoleWorker;
@@ -70,31 +71,31 @@ public class AllBelbinRoles extends Constrain {
             PersonTestEntity workerTest = worker.getPersonTest(); //obtener caracteristicas psicologicas
 
             if (workerTest != null) {
-                if (workerTest.getIM() != 'I' && workerTest.getIM() != 'E') {
+                if (workerTest.getIM() != BelbinRole.I && workerTest.getIM() != BelbinRole.E) {
                     ID = true;
                 }
-                if (workerTest.getIS() != 'I' && workerTest.getIS() != 'E') {
+                if (workerTest.getIS() != BelbinRole.I && workerTest.getIS() != BelbinRole.E) {
                     IS = true;
                 }
-                if (workerTest.getIF() != 'I' && workerTest.getIF() != 'E') {
+                if (workerTest.getIF() != BelbinRole.I && workerTest.getIF() != BelbinRole.E) {
                     IF = true;
                 }
-                if (workerTest.getCE() != 'I' && workerTest.getCE() != 'E') {
+                if (workerTest.getCE() != BelbinRole.I && workerTest.getCE() != BelbinRole.E) {
                     CE = true;
                 }
-                if (workerTest.getME() != 'I' && workerTest.getME() != 'E') {
+                if (workerTest.getME() != BelbinRole.I && workerTest.getME() != BelbinRole.E) {
                     ME = true;
                 }
-                if (workerTest.getES() != 'I' && workerTest.getES() != 'E') {
+                if (workerTest.getES() != BelbinRole.I && workerTest.getES() != BelbinRole.E) {
                     ES = true;
                 }
-                if (workerTest.getCO() != 'I' && workerTest.getCO() != 'E') {
+                if (workerTest.getCO() != BelbinRole.I && workerTest.getCO() != BelbinRole.E) {
                     CO = true;
                 }
-                if (workerTest.getCH() != 'I' && workerTest.getCH() != 'E') {
+                if (workerTest.getCH() != BelbinRole.I && workerTest.getCH() != BelbinRole.E) {
                     CH = true;
                 }
-                if (workerTest.getIR() != 'I' && workerTest.getIR() != 'E') {
+                if (workerTest.getIR() != BelbinRole.I && workerTest.getIR() != BelbinRole.E) {
                     IR = true;
                 }
 
@@ -164,38 +165,38 @@ public class AllBelbinRoles extends Constrain {
             PersonTestEntity workerTest = worker.getPersonTest(); //obtener caracteristicas psicologicas
 
             if (workerTest != null) {
-                if (workerTest.getIM() != 'I' && workerTest.getIM() != 'E') {
+                if (workerTest.getIM() != BelbinRole.I && workerTest.getIM() != BelbinRole.E) {
                     rolesQHay.add("ID");
                 }
-                if (workerTest.getIS() != 'I' && workerTest.getIS() != 'E') {
+                if (workerTest.getIS() != BelbinRole.I && workerTest.getIS() != BelbinRole.E) {
                     rolesQHay.add("IS");
 
                 }
-                if (workerTest.getIF() != 'I' && workerTest.getIF() != 'E') {
+                if (workerTest.getIF() != BelbinRole.I && workerTest.getIF() != BelbinRole.E) {
                     rolesQHay.add("IF");
 
                 }
-                if (workerTest.getCE() != 'I' && workerTest.getCE() != 'E') {
+                if (workerTest.getCE() != BelbinRole.I && workerTest.getCE() != BelbinRole.E) {
                     rolesQHay.add("CE");
 
                 }
-                if (workerTest.getME() != 'I' && workerTest.getME() != 'E') {
+                if (workerTest.getME() != BelbinRole.I && workerTest.getME() != BelbinRole.E) {
                     rolesQHay.add("ME");
 
                 }
-                if (workerTest.getES() != 'I' && workerTest.getES() != 'E') {
+                if (workerTest.getES() != BelbinRole.I && workerTest.getES() != BelbinRole.E) {
                     rolesQHay.add("ES");
 
                 }
-                if (workerTest.getCO() != 'I' && workerTest.getCO() != 'E') {
+                if (workerTest.getCO() != BelbinRole.I && workerTest.getCO() != BelbinRole.E) {
                     rolesQHay.add("CO");
 
                 }
-                if (workerTest.getCH() != 'I' && workerTest.getCH() != 'E') {
+                if (workerTest.getCH() != BelbinRole.I && workerTest.getCH() != BelbinRole.E) {
                     rolesQHay.add("CH");
 
                 }
-                if (workerTest.getIR() != 'I' && workerTest.getIR() != 'E') {
+                if (workerTest.getIR() != BelbinRole.I && workerTest.getIR() != BelbinRole.E) {
                     rolesQHay.add("IR");
 
                 }
@@ -217,55 +218,55 @@ public class AllBelbinRoles extends Constrain {
 
                 switch (rolesFaltan.get(j)) {
                     case "ID":
-                        if (workerTest.getIM() != 'I' && workerTest.getIM() != 'E') {
+                        if (workerTest.getIM() != BelbinRole.I && workerTest.getIM() != BelbinRole.E) {
                             candidatos.add(worker);
                             stop = true;
                         }
                         break;
                     case "IS":
-                        if (workerTest.getIS() != 'I' && workerTest.getIS() != 'E') {
+                        if (workerTest.getIS() != BelbinRole.I && workerTest.getIS() != BelbinRole.E) {
                             candidatos.add(worker);
                             stop = true;
                         }
                         break;
                     case "IF":
-                        if (workerTest.getIF() != 'I' && workerTest.getIF() != 'E') {
+                        if (workerTest.getIF() != BelbinRole.I && workerTest.getIF() != BelbinRole.E) {
                             candidatos.add(worker);
                             stop = true;
                         }
                         break;
                     case "CE":
-                        if (workerTest.getCE() != 'I' && workerTest.getCE() != 'E') {
+                        if (workerTest.getCE() != BelbinRole.I && workerTest.getCE() != BelbinRole.E) {
                             candidatos.add(worker);
                             stop = true;
                         }
                         break;
                     case "ME":
-                        if (workerTest.getME() != 'I' && workerTest.getME() != 'E') {
+                        if (workerTest.getME() != BelbinRole.I && workerTest.getME() != BelbinRole.E) {
                             candidatos.add(worker);
                             stop = true;
                         }
                         break;
                     case "ES":
-                        if (workerTest.getES() != 'I' && workerTest.getES() != 'E') {
+                        if (workerTest.getES() != BelbinRole.I && workerTest.getES() != BelbinRole.E) {
                             candidatos.add(worker);
                             stop = true;
                         }
                         break;
                     case "CO":
-                        if (workerTest.getCO() != 'I' && workerTest.getCO() != 'E') {
+                        if (workerTest.getCO() != BelbinRole.I && workerTest.getCO() != BelbinRole.E) {
                             candidatos.add(worker);
                             stop = true;
                         }
                         break;
                     case "CH":
-                        if (workerTest.getCH() != 'I' && workerTest.getCH() != 'E') {
+                        if (workerTest.getCH() != BelbinRole.I && workerTest.getCH() != BelbinRole.E) {
                             candidatos.add(worker);
                             stop = true;
                         }
                         break;
                     case "IR":
-                        if (workerTest.getIR() != 'I' && workerTest.getIR() != 'E') {
+                        if (workerTest.getIR() != BelbinRole.I && workerTest.getIR() != BelbinRole.E) {
                             candidatos.add(worker);
                             stop = true;
                         }
@@ -296,7 +297,7 @@ public class AllBelbinRoles extends Constrain {
 
                     switch (rolesRepetidos.get(a)) {
                         case "ID":
-                            if (workerTest.getIM() != 'I' && workerTest.getIM() != 'E') {
+                            if (workerTest.getIM() != BelbinRole.I && workerTest.getIM() != BelbinRole.E) {
                                 PersonEntity wor = candidatos.removeFirst();
                                 ((ProjectRole) state.getCode().get(posProy)).getRoleWorkers().get(j).getWorkers().set(k, wor);
 
@@ -305,7 +306,7 @@ public class AllBelbinRoles extends Constrain {
                             }
                             break;
                         case "IS":
-                            if (workerTest.getIS() != 'I' && workerTest.getIS() != 'E') {
+                            if (workerTest.getIS() != BelbinRole.I && workerTest.getIS() != BelbinRole.E) {
                                 PersonEntity wor = candidatos.removeFirst();
                                 ((ProjectRole) state.getCode().get(posProy)).getRoleWorkers().get(j).getWorkers().set(k, wor);
                                 cambio++;
@@ -314,7 +315,7 @@ public class AllBelbinRoles extends Constrain {
                             break;
 
                         case "IF":
-                            if (workerTest.getIF() != 'I' && workerTest.getIF() != 'E') {
+                            if (workerTest.getIF() != BelbinRole.I && workerTest.getIF() != BelbinRole.E) {
                                 PersonEntity wor = candidatos.removeFirst();
 
                                 ((ProjectRole) state.getCode().get(posProy)).getRoleWorkers().get(j).getWorkers().set(k, wor);
@@ -324,7 +325,7 @@ public class AllBelbinRoles extends Constrain {
                             break;
 
                         case "CE":
-                            if (workerTest.getCE() != 'I' && workerTest.getCE() != 'E') {
+                            if (workerTest.getCE() != BelbinRole.I && workerTest.getCE() != BelbinRole.E) {
                                 PersonEntity wor = candidatos.removeFirst();
 
                                 ((ProjectRole) state.getCode().get(posProy)).getRoleWorkers().get(j).getWorkers().set(k, wor);
@@ -334,7 +335,7 @@ public class AllBelbinRoles extends Constrain {
                             break;
 
                         case "ME":
-                            if (workerTest.getME() != 'I' && workerTest.getME() != 'E') {
+                            if (workerTest.getME() != BelbinRole.I && workerTest.getME() != BelbinRole.E) {
                                 PersonEntity wor = candidatos.removeFirst();
 
                                 ((ProjectRole) state.getCode().get(posProy)).getRoleWorkers().get(j).getWorkers().set(k, wor);
@@ -344,7 +345,7 @@ public class AllBelbinRoles extends Constrain {
                             break;
 
                         case "ES":
-                            if (workerTest.getES() != 'I' && workerTest.getES() != 'E') {
+                            if (workerTest.getES() != BelbinRole.I && workerTest.getES() != BelbinRole.E) {
                                 PersonEntity wor = candidatos.removeFirst();
 
                                 ((ProjectRole) state.getCode().get(posProy)).getRoleWorkers().get(j).getWorkers().set(k, wor);
@@ -354,7 +355,7 @@ public class AllBelbinRoles extends Constrain {
                             break;
 
                         case "CO":
-                            if (workerTest.getCO() != 'I' && workerTest.getCO() != 'E') {
+                            if (workerTest.getCO() != BelbinRole.I && workerTest.getCO() != BelbinRole.E) {
                                 ((ProjectRole) state.getCode().get(posProy)).getRoleWorkers().get(j).getWorkers().set(k, candidatos.removeFirst());
                                 cambio++;
 
@@ -362,7 +363,7 @@ public class AllBelbinRoles extends Constrain {
                             break;
 
                         case "CH":
-                            if (workerTest.getCH() != 'I' && workerTest.getCH() != 'E') {
+                            if (workerTest.getCH() != BelbinRole.I && workerTest.getCH() != BelbinRole.E) {
                                 PersonEntity wor = candidatos.removeFirst();
 
                                 ((ProjectRole) state.getCode().get(posProy)).getRoleWorkers().get(j).getWorkers().set(k, wor);
@@ -372,7 +373,7 @@ public class AllBelbinRoles extends Constrain {
                             break;
 
                         case "IR":
-                            if (workerTest.getIR() != 'I' && workerTest.getIR() != 'E') {
+                            if (workerTest.getIR() != BelbinRole.I && workerTest.getIR() != BelbinRole.E) {
                                 PersonEntity wor = candidatos.removeFirst();
 
                                 ((ProjectRole) state.getCode().get(posProy)).getRoleWorkers().get(j).getWorkers().set(k, wor);

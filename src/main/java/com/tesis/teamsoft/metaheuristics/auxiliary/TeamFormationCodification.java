@@ -1,5 +1,6 @@
 package com.tesis.teamsoft.metaheuristics.auxiliary;
 
+import com.tesis.teamsoft.persistence.entity.auxiliary.BelbinRole;
 import com.tesis.teamsoft.persistence.entity.auxiliary.Status;
 import com.tesis.teamsoft.pojos.ProjectRoleCompetenceTemplate;
 import com.tesis.teamsoft.persistence.entity.AssignedRoleEntity;
@@ -607,9 +608,9 @@ public class TeamFormationCodification extends Codification {
                 if (meet) {
                     ((ProjectRole) solution.getCode().get(1)).getRoleWorkers().getFirst().getRole().setBoss(true);
 
-                    ((ProjectRole) solution.getCode().get(1)).getRoleWorkers().getFirst().getWorkers().getFirst().getPersonTest().setIS('I');
+                    ((ProjectRole) solution.getCode().get(1)).getRoleWorkers().getFirst().getWorkers().getFirst().getPersonTest().setIS(BelbinRole.I);
 
-                    ((ProjectRole) solution.getCode().get(0)).getRoleWorkers().getFirst().getWorkers().getFirst().getPersonTest().setCO('I');
+                    ((ProjectRole) solution.getCode().get(0)).getRoleWorkers().getFirst().getWorkers().getFirst().getPersonTest().setCO(BelbinRole.I);
                 }
                 meet = rest.ValidateState(solution);
                 if (!meet) {
@@ -769,7 +770,7 @@ public class TeamFormationCodification extends Codification {
                 while (k < aux.size()) { // para cada persona
                     PersonEntity worker = aux.get(k);
                     if (worker.getPersonTest() != null) {
-                        if (worker.getPersonTest().getCE() != 'I' && worker.getPersonTest().getCE() != 'E') { // si tiene rol cerebro
+                        if (worker.getPersonTest().getCE() != BelbinRole.I && worker.getPersonTest().getCE() != BelbinRole.E) { // si tiene rol cerebro
                             personCount++; //cuento uno
                         }
                     }
@@ -892,7 +893,7 @@ public class TeamFormationCodification extends Codification {
                 aux.addAll(roleWorker.getFixedWorkers());
                 for (PersonEntity worker : aux) { // para cada persona
                     if (worker.getPersonTest() != null) {
-                        if (worker.getPersonTest().getCE() != 'I' && worker.getPersonTest().getCE() != 'E') { // si tiene rol cerebro
+                        if (worker.getPersonTest().getCE() != BelbinRole.I && worker.getPersonTest().getCE() != BelbinRole.E) { // si tiene rol cerebro
                             personCount++; //cuento uno
                         }
 

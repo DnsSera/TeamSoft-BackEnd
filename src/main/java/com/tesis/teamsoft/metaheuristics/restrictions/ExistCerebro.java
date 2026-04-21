@@ -2,6 +2,7 @@ package com.tesis.teamsoft.metaheuristics.restrictions;
 
 import com.tesis.teamsoft.persistence.entity.PersonEntity;
 import com.tesis.teamsoft.persistence.entity.PersonTestEntity;
+import com.tesis.teamsoft.persistence.entity.auxiliary.BelbinRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,7 +56,7 @@ public class ExistCerebro extends Constrain {
                     PersonEntity worker = aux.get(k);
 
                     if (worker.getPersonTest() != null) {
-                        if (worker.getPersonTest().getCE() != 'I' && worker.getPersonTest().getCE() != 'E') { // si tiene rol cerebro
+                        if (worker.getPersonTest().getCE() != BelbinRole.I && worker.getPersonTest().getCE() != BelbinRole.E) { // si tiene rol cerebro
                             personCount++; //cuento uno
                         }
                         if (personCount >= min) { //si esta cubierta la cantidad definida por el usuario
@@ -85,7 +86,7 @@ public class ExistCerebro extends Constrain {
             PersonEntity worker = codification.getSearchArea().get(i);
             PersonTestEntity workerTest = worker.getPersonTest(); //obtener caracteristicas psicologicas
 
-            if (workerTest.getCE() != 'I' && workerTest.getCE() != 'E') {
+            if (workerTest.getCE() != BelbinRole.I && workerTest.getCE() != BelbinRole.E) {
                 candidatos.add(worker);
             }
 
@@ -102,7 +103,7 @@ public class ExistCerebro extends Constrain {
                 int k = 0;
                 while (k < rw.getWorkers().size()) {
                     PersonEntity worker = rw.getWorkers().get(k);
-                    if (!(worker.getPersonTest().getCE() != 'I' && worker.getPersonTest().getCE() != 'E')) { // si tiene rol cerebro
+                    if (!(worker.getPersonTest().getCE() != BelbinRole.I && worker.getPersonTest().getCE() != BelbinRole.E)) { // si tiene rol cerebro
                         rw.getWorkers().set(k, candidatos.remove(c));
                         c++;
                     }
